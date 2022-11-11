@@ -18,6 +18,7 @@ namespace CashFlowData
         public int m_nAccountToID;
         public CTransactionType m_pType;
         public int m_nScheduleID;
+        public DateTime m_dtTransaction;
         public CTransaction() : base() { }
 
         public override void Clear()
@@ -29,6 +30,7 @@ namespace CashFlowData
             m_nAccountToID = -1;
             m_pType = CTransactionType.Bill;
             m_nScheduleID = -1;
+            m_dtTransaction = DateTime.Now;
         }
         public override void UpdateListViewItem(ref ListViewItem item)
         {
@@ -121,6 +123,21 @@ namespace CashFlowData
             set
             {
                 m_nScheduleID = value;
+                UpdateUI();
+                UpdateDateModified();
+            }
+        }
+
+        [JsonIgnore]
+        [Browsable(true)]
+        [Category("Properties")]
+        [DisplayName("Transaction")]
+        public DateTime dtTransaction
+        {
+            get { return m_dtTransaction; }
+            set
+            {
+                m_dtTransaction = value;
                 UpdateUI();
                 UpdateDateModified();
             }

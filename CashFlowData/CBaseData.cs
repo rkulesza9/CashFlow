@@ -17,6 +17,8 @@ namespace CashFlowData
         public int m_nID;
         public DateTime m_dtCreated;
         public DateTime m_dtModified;
+        public bool m_bArchived;
+        public string m_szNotes;
 
         [JsonIgnore]
         public ArrayList m_pUIControls;
@@ -33,6 +35,8 @@ namespace CashFlowData
             m_dtCreated = DateTime.Now; 
             m_dtModified = DateTime.Now;
             m_pUIControls = new ArrayList();
+            m_bArchived = false;
+            m_szNotes = "";
         }
         public virtual void UpdateListViewItem(ref ListViewItem item)
         {
@@ -60,6 +64,18 @@ namespace CashFlowData
         [Category("System")]
         [DisplayName("Last Modified On")]
         public DateTime dtModified { get { return m_dtModified; } }
+        [JsonIgnore]
+        [Browsable(true)]
+        [ReadOnly(true)]
+        [Category("System")]
+        [DisplayName("Archived")]
+        public bool bArchived { get { return bArchived; } }
+        [JsonIgnore]
+        [Browsable(true)]
+        [ReadOnly(true)]
+        [Category("Properties")]
+        [DisplayName("Notes")]
+        public string szNotes { get { return m_szNotes; } }
         #endregion
 
         #region "Does Not Change"
