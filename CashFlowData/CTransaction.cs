@@ -14,6 +14,7 @@ namespace CashFlowData
     {
         public string m_szName;
         public decimal m_nCost;
+        public decimal m_nAmtPaid;
         public int m_nAccountFromID;
         public int m_nAccountToID;
         public CTransactionType m_pType;
@@ -31,6 +32,7 @@ namespace CashFlowData
             m_pType = CTransactionType.Bill;
             m_nScheduleID = -1;
             m_dtTransaction = DateTime.Now;
+            m_nAmtPaid = 0;
         }
         public override void UpdateListViewItem(ref ListViewItem item)
         {
@@ -67,6 +69,20 @@ namespace CashFlowData
             set
             {
                 m_nCost = value;
+                UpdateUI();
+                UpdateDateModified();
+            }
+        }
+        [JsonIgnore]
+        [Browsable(true)]
+        [Category("Properties")]
+        [DisplayName("Amount Paid")]
+        public decimal nAmtPaid
+        {
+            get { return m_nAmtPaid; }
+            set
+            {
+                m_nAmtPaid = value;
                 UpdateUI();
                 UpdateDateModified();
             }
