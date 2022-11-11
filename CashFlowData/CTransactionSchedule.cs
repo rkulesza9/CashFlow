@@ -20,8 +20,9 @@ namespace CashFlowData
         public int m_nPerTimeUnit;
         public CTimeUnit m_pTimeUnit;
         public DateTime m_dtStartDate;
+        public bool m_bActive;
 
-        public CTransactionSchedule() : base() {  }
+        public CTransactionSchedule() : base() { }
 
         public override void Clear()
         {
@@ -34,6 +35,7 @@ namespace CashFlowData
             m_nPerTimeUnit = 1;
             m_pTimeUnit = CTimeUnit.Months;
             m_dtStartDate = DateTime.Now;
+            m_bActive = true;
         }
 
         public override void UpdateListViewItem(ref ListViewItem item)
@@ -159,6 +161,21 @@ namespace CashFlowData
                 m_pTimeUnit = value;
                 UpdateUI();
                 UpdateDateModified();
+            }
+        }
+        [JsonIgnore]
+        [Browsable(true)]
+        [Category("Properties")]
+        [DisplayName("Active")]
+        public bool bActive
+        {
+            get { return m_bActive; }
+            set
+            {
+                m_bActive = value;
+                UpdateUI();
+                UpdateDateModified();
+
             }
         }
         #endregion

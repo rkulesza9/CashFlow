@@ -18,6 +18,7 @@ namespace CashFlowData
         public DateTime m_dtCreated;
         public DateTime m_dtModified;
 
+        [JsonIgnore]
         public ArrayList m_pUIControls;
         public CBaseData()
         {
