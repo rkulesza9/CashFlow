@@ -51,6 +51,9 @@
   <ItemGroup>
     <Compile Include="CConstants.cs" />
     <Compile Include="CDataLabels.cs" />
+    <Compile Include="CHeader.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CUITypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

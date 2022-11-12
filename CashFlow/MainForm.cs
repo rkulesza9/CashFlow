@@ -1,4 +1,5 @@
 ﻿using CashFlowData;
+using CashFlowGlobals;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ namespace CashFlow
     public partial class MainForm : Form
     { 
         public string m_szFile;
+        public DataViewForm m_dvfm;
         public MainForm()
         {
             InitializeComponent();
@@ -35,6 +37,16 @@ namespace CashFlow
                     m_szFile = pDialog.FileName;
                     lblFileName.Text = m_szFile;
                     CData.New(m_szFile);
+
+                    // Create scheduled transactions
+                    //CData.CreateScheduledTransactions(DateTime.Now, DateTime.Now.AddMonths(1));
+
+                    // open accounts form
+                    if (!(m_dvfm is null) && !m_dvfm.IsDisposed) m_dvfm.Close();
+                    m_dvfm = new DataViewForm();
+                    m_dvfm.m_pType = CUIType.DataViewForm_Accounts;
+                    m_dvfm.m_szFilename = m_szFile;
+                    m_dvfm.Initialize(this);
                 }
             }catch(Exception ex)
             {
@@ -56,7 +68,19 @@ namespace CashFlow
                     m_szFile = pDialog.FileName;
                     lblFileName.Text = m_szFile;
                     CData.Load(m_szFile);
+
+                    // Create scheduled transactions
+                    //CData.CreateScheduledTransactions(DateTime.Now, DateTime.Now.AddMonths(1));
+
+                    // open accounts form
+                    if (!(m_dvfm is null) && !m_dvfm.IsDisposed) m_dvfm.Close();
+                    m_dvfm = new DataViewForm();
+                    m_dvfm.m_pType = CUIType.DataViewForm_Accounts;
+                    m_dvfm.m_szFilename = m_szFile;
+                    m_dvfm.Initialize(this);
                 }
+
+                
             }
             catch (Exception ex)
             {
@@ -105,5 +129,58 @@ namespace CashFlow
         }
         #endregion
 
+        private void accountsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!(m_dvfm is null) && !m_dvfm.IsDisposed) m_dvfm.Close();
+
+                m_dvfm = new DataViewForm();
+                m_dvfm.m_pType = CUIType.DataViewForm_Accounts;
+                m_dvfm.m_szFilename = m_szFile;
+                m_dvfm.Initialize(this);
+            }catch(Exception ex)
+            {
+                MessageBox.Show("accountsToolStripMenuItem_Click");
+                Debug.WriteLine(ex);
+            }
+        }
+
+        private void scheduledTransactionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!(m_dvfm is null) && !m_dvfm.IsDisposed) m_dvfm.Close();
+                m_dvfm = new DataViewForm();
+                m_dvfm.m_pType = CUIType.DataViewForm_Schedules;
+                m_dvfm.m_szFilename = m_szFile;
+                m_dvfm.Initialize(this);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("scheduledTransactionsToolStripMenuItem_Click");
+                Debug.WriteLine(ex);
+            }
+
+        }
+
+        private void transactionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!(m_dvfm is null) && !m_dvfm.IsDisposed) m_dvfm.Close();
+                m_dvfm = new DataViewForm();
+                m_dvfm.m_pType = CUIType.DataViewForm_Transactions;
+                m_dvfm.m_szFilename = m_szFile;
+                m_dvfm.Initialize(this);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("transactionsToolStripMenuItem_Click");
+                Debug.WriteLine(ex);
+            }
+        }
     }
 }

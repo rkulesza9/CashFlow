@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace CashFlowGlobals
 {
-    public enum CListViewType
+    public enum CUIType
     {
-        None
+        DataViewForm_Accounts,
+        DataViewForm_Transactions,
+        DataViewForm_Schedules
     }
 }

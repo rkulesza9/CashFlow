@@ -13,7 +13,7 @@ namespace CashFlowData
 {
     public class CData
     {
-        public static CJsonDatabase DB;
+        public static CJsonDatabase DB = new CJsonDatabase();
 
         #region "File IO"
         public static void New(string filename)
@@ -58,7 +58,7 @@ namespace CashFlowData
         #endregion
 
         #region "Get Object By ID"
-        public CAccount GetAccountByID(int id)
+        public static CAccount GetAccountByID(int id)
         {
             CAccount account = new CAccount();
             try
@@ -77,7 +77,7 @@ namespace CashFlowData
             }
             return account;
         }
-        public CTransactionSchedule GetScheduleByID(int id)
+        public static CTransactionSchedule GetScheduleByID(int id)
         {
             CTransactionSchedule sched = new CTransactionSchedule();
             try
@@ -104,7 +104,7 @@ namespace CashFlowData
             CAccount acct = new CAccount();
             try
             {
-                acct.m_nID = MaxID(DB.tblAccount);
+                acct.m_nID = MaxID(DB.tblAccount)+1;
                 DB.tblAccount.Add(acct);
             }catch(Exception ex)
             {
@@ -117,7 +117,7 @@ namespace CashFlowData
             CTransaction tra = new CTransaction();
             try
             {
-                tra.m_nID = MaxID(DB.tblTransaction);
+                tra.m_nID = MaxID(DB.tblTransaction)+1;
                 DB.tblTransaction.Add(tra);
             }
             catch (Exception ex)
@@ -132,7 +132,7 @@ namespace CashFlowData
             CTransactionSchedule ts = new CTransactionSchedule();
             try
             {
-                ts.m_nID = MaxID(DB.tblTransactionSchedule);
+                ts.m_nID = MaxID(DB.tblTransactionSchedule)+1;
                 DB.tblTransactionSchedule.Add(ts);
             }
             catch (Exception ex)
@@ -141,7 +141,7 @@ namespace CashFlowData
             }
             return ts;
         }
-        public static int MaxID(ArrayList table)
+        public static int MaxID<T>(List<T> table) where T : CBaseData
         {
             int num = -1;
             foreach(CBaseData data in table)
@@ -167,11 +167,35 @@ namespace CashFlowData
             {
                 foreach(CAccount account in DB.tblAccount)
                 {
-                    if (account.bArchived) continue;
+                    if (account.bArchived || account.bDeleted) continue;
                     ls.Add(account);
                 }
             }catch (Exception ex)
             {
+                Debug.WriteLine(ex);
+            }
+            return ls;
+        }
+        public static ArrayList SearchAccounts(string szText)
+        {
+            ArrayList ls = new ArrayList();
+            try
+            {
+                foreach(CAccount acct in GetAccounts())
+                {
+                    szText = szText.Trim().ToLower();
+                    string[] terms = szText.Split(new char[] { ' ', ',' });
+                    string json = JsonConvert.SerializeObject(acct).ToLower();
+                    foreach (string term in terms)
+                    {
+                        if (json.Contains(term))
+                        {
+                            ls.Add(acct);
+                            break;
+                        }
+                    }
+                }
+            }catch(Exception ex){
                 Debug.WriteLine(ex);
             }
             return ls;
@@ -186,7 +210,7 @@ namespace CashFlowData
             {
                 foreach (CTransaction trans in DB.tblTransaction)
                 {
-                    if (trans.bArchived) continue;
+                    if (trans.bArchived || trans.bDeleted) continue;
                     ls.Add(trans);
                 }
 
@@ -217,6 +241,46 @@ namespace CashFlowData
             }
             return result;
         }
+        public static ArrayList SearchTransactions(string szText)
+        {
+            ArrayList ls = new ArrayList();
+            try
+            {
+                foreach (CTransaction acct in GetTransactions())
+                {
+                    szText = szText.Trim().ToLower();
+                    string[] terms = szText.Split(new char[] { ' ', ',' });
+                    string json = JsonConvert.SerializeObject(acct).ToLower();
+                    foreach (string term in terms)
+                    {
+                        if (json.Contains(term))
+                        {
+                            ls.Add(acct);
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return ls;
+        }
+        public static DateTime GetNextTransactionDate(CTransactionSchedule sched)
+        {
+            DateTime dt = new DateTime();
+            try
+            {
+                ArrayList dates = GetDates(sched, DateTime.Now, 1);
+                dt = (DateTime)dates[0];
+            }catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+
+            }
+            return dt;
+        }
         #endregion
 
         #region "CTransactionSchedule Queries"
@@ -227,10 +291,36 @@ namespace CashFlowData
             {
                 foreach (CTransactionSchedule sched in DB.tblTransactionSchedule)
                 {
-                    if (sched.bArchived) continue;
+                    if (sched.bArchived || sched.bDeleted) continue;
                     ls.Add(sched);
                 }
 
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return ls;
+        }
+        public static ArrayList SearchSchedules(string szText)
+        {
+            ArrayList ls = new ArrayList();
+            try
+            {
+                foreach (CTransactionSchedule acct in GetSchedules())
+                {
+                    szText = szText.Trim().ToLower();
+                    string[] terms = szText.Split(new char[] { ' ', ',' });
+                    string json = JsonConvert.SerializeObject(acct).ToLower();
+                    foreach (string term in terms)
+                    {
+                        if (json.Contains(term))
+                        {
+                            ls.Add(acct);
+                            break;
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -271,6 +361,29 @@ namespace CashFlowData
                 while (dt < dtStart) dt = Add(dt, nPerTimeUnit, timeUnit); // find dates after the start date
 
                 while(dt < dtEnd) // find dates before end date
+                {
+                    ls.Add(dt);
+                    dt = Add(dt, nPerTimeUnit, timeUnit);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return ls;
+        }
+        public static ArrayList GetDates(CTransactionSchedule sched, DateTime dtStart, int nDates)
+        {
+            ArrayList ls = new ArrayList();
+            try
+            {
+                DateTime dt = sched.m_dtStartDate;
+                int nPerTimeUnit = sched.m_nPerTimeUnit;
+                CTimeUnit timeUnit = sched.m_pTimeUnit;
+
+                while (dt < dtStart) dt = Add(dt, nPerTimeUnit, timeUnit); // find dates after the start date
+
+                for(int x = 0; x < nDates; x++)// find next n dates
                 {
                     ls.Add(dt);
                     dt = Add(dt, nPerTimeUnit, timeUnit);
@@ -333,15 +446,15 @@ namespace CashFlowData
 
     public class CJsonDatabase
     {
-        public ArrayList tblAccount;
-        public ArrayList tblTransaction;
-        public ArrayList tblTransactionSchedule;
+        public List<CAccount> tblAccount;
+        public List<CTransaction> tblTransaction;
+        public List<CTransactionSchedule> tblTransactionSchedule;
 
         public CJsonDatabase()
         {
-            tblAccount = new ArrayList();
-            tblTransaction = new ArrayList();   
-            tblTransactionSchedule = new ArrayList();
+            tblAccount = new List<CAccount>();
+            tblTransaction = new List<CTransaction>();   
+            tblTransactionSchedule = new List<CTransactionSchedule>();
         }
     }
 }

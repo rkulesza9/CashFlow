@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace CashFlowData
         public DateTime m_dtCreated;
         public DateTime m_dtModified;
         public bool m_bArchived;
+        public bool m_bDeleted;
         public string m_szNotes;
 
         [JsonIgnore]
@@ -37,6 +39,7 @@ namespace CashFlowData
             m_pUIControls = new ArrayList();
             m_bArchived = false;
             m_szNotes = "";
+            m_bDeleted = false;
         }
         public virtual void UpdateListViewItem(ref ListViewItem item)
         {
@@ -69,17 +72,31 @@ namespace CashFlowData
         [ReadOnly(true)]
         [Category("System")]
         [DisplayName("Archived")]
-        public bool bArchived { get { return bArchived; } }
+        public bool bArchived { get { return m_bArchived; } }
         [JsonIgnore]
         [Browsable(true)]
         [ReadOnly(true)]
+        [Category("System")]
+        [DisplayName("Deleted")]
+        public bool bDeleted { get { return m_bDeleted; } }
+        [JsonIgnore]
+        [Browsable(true)]
         [Category("Properties")]
         [DisplayName("Notes")]
-        public string szNotes { get { return m_szNotes; } }
+        public string szNotes 
+        { 
+            get { return m_szNotes; } 
+            set 
+            { 
+                m_szNotes = value;
+                UpdateDateModified();
+                UpdateUI();
+            } 
+        }
         #endregion
 
         #region "Does Not Change"
-        public ListViewItem CreateListViewItem(CListViewType lvtype)
+        public ListViewItem CreateListViewItem(CUIType lvtype)
         {
             ListViewItem item = new ListViewItem();
             item.Tag = new CListViewTag(lvtype, this);
@@ -107,9 +124,9 @@ namespace CashFlowData
     }
     public class CListViewTag
     {
-        public CListViewType m_pListViewTypeID;
+        public CUIType m_pListViewTypeID;
         public CBaseData m_pData;
-        public CListViewTag(CListViewType tp, CBaseData data)
+        public CListViewTag(CUIType tp, CBaseData data)
         {
             m_pData = data; 
             m_pListViewTypeID = tp;

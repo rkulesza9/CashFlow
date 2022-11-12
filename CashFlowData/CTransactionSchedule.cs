@@ -1,5 +1,6 @@
 ﻿using CashFlowGlobals;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,8 +17,10 @@ namespace CashFlowData
         public decimal m_nCost;
         public int m_nAccountFromID;
         public int m_nAccountToID;
+        [JsonConverter(typeof(StringEnumConverter))]
         public CTransactionType m_pType;
         public int m_nPerTimeUnit;
+        [JsonConverter(typeof(StringEnumConverter))]
         public CTimeUnit m_pTimeUnit;
         public DateTime m_dtStartDate;
         public bool m_bActive;
@@ -44,6 +47,13 @@ namespace CashFlowData
             CListViewTag tag = item.Tag as CListViewTag;
             switch (tag.m_pListViewTypeID)
             {
+                case CUIType.DataViewForm_Schedules:
+                    item.Text = m_szName;
+                    item.SubItems.Add(CData.GetAccountByID(m_nAccountFromID).m_szName);
+                    item.SubItems.Add(CData.GetAccountByID(m_nAccountToID).m_szName);
+                    item.SubItems.Add(m_nCost.ToString("c"));
+                    item.SubItems.Add(CData.GetNextTransactionDate(this).ToShortDateString());
+                    break;
                 default:
                     break;
             }
@@ -60,8 +70,8 @@ namespace CashFlowData
             set
             {
                 m_szName = value;
-                UpdateUI();
                 UpdateDateModified();
+                UpdateUI();
 
             }
         }
@@ -75,8 +85,8 @@ namespace CashFlowData
             set
             {
                 m_nCost = value;
-                UpdateUI();
                 UpdateDateModified();
+                UpdateUI();
             }
         }
         [JsonIgnore]
@@ -89,8 +99,8 @@ namespace CashFlowData
             set
             {
                 m_nAccountFromID = value;
-                UpdateUI();
                 UpdateDateModified();
+                UpdateUI();
             }
         }
         [JsonIgnore]
@@ -103,8 +113,8 @@ namespace CashFlowData
             set
             {
                 m_nAccountToID = value;
-                UpdateUI();
                 UpdateDateModified();
+                UpdateUI();
             }
         }
         [JsonIgnore]
@@ -117,8 +127,8 @@ namespace CashFlowData
             set
             {
                 m_pType = value;
-                UpdateUI();
                 UpdateDateModified();
+                UpdateUI();
             }
         }
         [JsonIgnore]
@@ -131,8 +141,8 @@ namespace CashFlowData
             set
             {
                 m_dtStartDate = value;
-                UpdateUI();
                 UpdateDateModified();
+                UpdateUI();
             }
         }
         [JsonIgnore]
@@ -145,8 +155,8 @@ namespace CashFlowData
             set
             {
                 m_nPerTimeUnit = value;
-                UpdateUI();
                 UpdateDateModified();
+                UpdateUI();
             }
         }
         [JsonIgnore]
@@ -159,8 +169,8 @@ namespace CashFlowData
             set
             {
                 m_pTimeUnit = value;
-                UpdateUI();
                 UpdateDateModified();
+                UpdateUI();
             }
         }
         [JsonIgnore]
@@ -173,8 +183,8 @@ namespace CashFlowData
             set
             {
                 m_bActive = value;
-                UpdateUI();
                 UpdateDateModified();
+                UpdateUI();
 
             }
         }
