@@ -36,7 +36,11 @@ namespace CashFlowData
             {
                 string szData = File.ReadAllText(filename);
                 DB = JsonConvert.DeserializeObject<CJsonDatabase>(szData);
-            }catch(Exception ex)
+                DB.m_szFileName = filename;
+                DB.m_dtLastSaved = DateTime.Now;
+                CreateScheduledTransactions(DateTime.Now.AddDays(-14), DateTime.Now.AddDays(14));
+            }
+            catch(Exception ex)
             {
                 Debug.WriteLine(ex);
             }
@@ -48,6 +52,9 @@ namespace CashFlowData
             {
                 string szData = JsonConvert.SerializeObject(DB);
                 File.WriteAllText(filename, szData);
+                DB.m_szFileName = filename;
+                DB.m_dtLastSaved = DateTime.Now;
+                CreateScheduledTransactions(DateTime.Now.AddDays(-14), DateTime.Now.AddDays(14));
             }
             catch (Exception ex)
             {
@@ -449,12 +456,15 @@ namespace CashFlowData
         public List<CAccount> tblAccount;
         public List<CTransaction> tblTransaction;
         public List<CTransactionSchedule> tblTransactionSchedule;
+        public string m_szFileName;
+        public DateTime m_dtLastSaved;
 
         public CJsonDatabase()
         {
             tblAccount = new List<CAccount>();
             tblTransaction = new List<CTransaction>();   
             tblTransactionSchedule = new List<CTransactionSchedule>();
+            m_szFileName = "";
         }
     }
 }

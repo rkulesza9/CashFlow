@@ -72,7 +72,7 @@ namespace CashFlowData
                 m_szName = value;
                 UpdateDateModified();
                 UpdateUI();
-
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -87,6 +87,7 @@ namespace CashFlowData
                 m_nCost = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -101,6 +102,7 @@ namespace CashFlowData
                 m_nAccountFromID = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -115,6 +117,7 @@ namespace CashFlowData
                 m_nAccountToID = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -129,6 +132,7 @@ namespace CashFlowData
                 m_pType = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -143,6 +147,7 @@ namespace CashFlowData
                 m_dtStartDate = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -157,6 +162,7 @@ namespace CashFlowData
                 m_nPerTimeUnit = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -171,6 +177,7 @@ namespace CashFlowData
                 m_pTimeUnit = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -185,6 +192,7 @@ namespace CashFlowData
                 m_bActive = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
 
             }
         }

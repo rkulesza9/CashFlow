@@ -35,7 +35,9 @@ namespace CashFlow
             {
                 pgEditor.Refresh();
                 foreach (CHeader h in m_pColumns) h.Width = -2;
-            }catch(Exception ex)
+                ((MainForm)MdiParent).UpdateLastSavedDate();
+            }
+            catch(Exception ex)
             {
                 MessageBox.Show("PgEditor_PropertyValueChanged");
                 Debug.WriteLine(ex);

@@ -56,6 +56,7 @@
     <Compile Include="CAccount.cs" />
     <Compile Include="CBaseData.cs" />
     <Compile Include="CData.cs" />
+    <Compile Include="CListViewSorter.cs" />
     <Compile Include="CTransaction.cs" />
     <Compile Include="CTransactionSchedule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

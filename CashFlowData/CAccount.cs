@@ -53,6 +53,7 @@ namespace CashFlowData
                 m_szName = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -67,6 +68,7 @@ namespace CashFlowData
                 m_pType = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         #endregion

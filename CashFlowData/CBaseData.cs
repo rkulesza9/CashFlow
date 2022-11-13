@@ -91,6 +91,7 @@ namespace CashFlowData
                 m_szNotes = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             } 
         }
         #endregion

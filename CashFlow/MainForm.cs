@@ -36,6 +36,7 @@ namespace CashFlow
                 {
                     m_szFile = pDialog.FileName;
                     lblFileName.Text = m_szFile;
+                    lblLastSaveDate.Text = DateTime.Now.ToString();
                     CData.New(m_szFile);
 
                     // Create scheduled transactions
@@ -67,6 +68,7 @@ namespace CashFlow
                 {
                     m_szFile = pDialog.FileName;
                     lblFileName.Text = m_szFile;
+                    lblLastSaveDate.Text = DateTime.Now.ToString();
                     CData.Load(m_szFile);
 
                     // Create scheduled transactions
@@ -95,6 +97,7 @@ namespace CashFlow
             try
             {
                 CData.Save(m_szFile);
+                lblLastSaveDate.Text = DateTime.Now.ToString();
                 MessageBox.Show("File Saved");
             }
             catch (Exception ex)
@@ -117,6 +120,7 @@ namespace CashFlow
                 {
                     m_szFile = pDialog.FileName;
                     lblFileName.Text = m_szFile;
+                    lblLastSaveDate.Text = DateTime.Now.ToString();
                     CData.Save(m_szFile);
                 }
             }
@@ -129,6 +133,19 @@ namespace CashFlow
         }
         #endregion
 
+        public void UpdateLastSavedDate()
+        {
+            try
+            {
+                lblLastSaveDate.Text = DateTime.Now.ToString();
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("UpdateLastSavedDate");
+                Debug.WriteLine(ex);
+            }
+        }
         private void accountsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try

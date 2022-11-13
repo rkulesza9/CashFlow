@@ -67,6 +67,7 @@ namespace CashFlowData
                 m_szName = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -81,6 +82,7 @@ namespace CashFlowData
                 m_nCost = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -95,6 +97,7 @@ namespace CashFlowData
                 m_nAmtPaid = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -109,6 +112,7 @@ namespace CashFlowData
                 m_nAccountFromID = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -123,6 +127,7 @@ namespace CashFlowData
                 m_nAccountToID = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -137,6 +142,7 @@ namespace CashFlowData
                 m_pType = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         [JsonIgnore]
@@ -151,6 +157,7 @@ namespace CashFlowData
                 m_nScheduleID = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
 
@@ -166,6 +173,7 @@ namespace CashFlowData
                 m_dtTransaction = value;
                 UpdateDateModified();
                 UpdateUI();
+                CData.Save(CData.DB.m_szFileName);
             }
         }
         #endregion
