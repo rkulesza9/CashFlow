@@ -17,6 +17,7 @@ namespace CashFlow
     { 
         public string m_szFile;
         public DataViewForm m_dvfm;
+        public PayPeriodView m_payPeriod;
         public MainForm()
         {
             InitializeComponent();
@@ -197,6 +198,25 @@ namespace CashFlow
             {
                 MessageBox.Show("transactionsToolStripMenuItem_Click");
                 Debug.WriteLine(ex);
+            }
+        }
+
+        private void payPeriodToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(m_payPeriod is null || m_payPeriod.IsDisposed)
+                {
+                    m_payPeriod = new PayPeriodView();
+                }
+                m_payPeriod.MdiParent = this;
+                m_payPeriod.Show();
+
+            }catch(Exception ex)
+            {
+                MessageBox.Show("payPeriodToolStripMenuItem_Click");
+                Debug.WriteLine(ex);
+
             }
         }
     }

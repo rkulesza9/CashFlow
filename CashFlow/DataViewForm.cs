@@ -27,6 +27,23 @@ namespace CashFlow
             InitializeComponent();
             WindowState = FormWindowState.Maximized;
             pgEditor.PropertyValueChanged += PgEditor_PropertyValueChanged;
+            lvDataView.ColumnClick += LvDataView_ColumnClick;
+        }
+
+        private void LvDataView_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            try
+            {
+                CListViewSorter sorter = (CListViewSorter)lvDataView.ListViewItemSorter;
+                SortOrder pOrder = SortOrder.Ascending;
+                if (e.Column == sorter.m_nColumn && pOrder == sorter.m_pOrder) pOrder = SortOrder.Descending;
+                lvDataView.ListViewItemSorter = new CListViewSorter(m_pType, e.Column, pOrder);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("LvDataView_ColumnClick");
+                Debug.WriteLine(ex);
+            }
         }
 
         private void PgEditor_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -72,7 +89,8 @@ namespace CashFlow
 
                 AddHeaders(m_pColumns);
                 PopulateListView(m_pData);
-                //lblFileName.Text = m_szFilename;
+
+                lvDataView.ListViewItemSorter = new CListViewSorter(m_pType, 0, SortOrder.Ascending);
 
                 MdiParent = parent;
                 Show();

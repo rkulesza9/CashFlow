@@ -13,6 +13,8 @@ namespace CashFlowGlobals
         {
             new CHeader("Name"),
             new CHeader("Type"),
+            new CHeader("Expected Total"),
+            new CHeader("Actual Total"),
             new CHeader("Notes")
         };
         public readonly static CHeader[] COLUMNS_TRANSACTION =
@@ -30,8 +32,12 @@ namespace CashFlowGlobals
             new CHeader("From"),
             new CHeader("To"),
             new CHeader("Cost"),
-            new CHeader("Next Date")
+            new CHeader("Next Date"),
+            new CHeader("Expected Total"),
+            new CHeader("Actual Total"),
+            new CHeader("Notes")
         };
         #endregion
+
     }
 }

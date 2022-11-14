@@ -50,6 +50,12 @@ namespace CashFlowData
                     item.SubItems.Add(m_nAmtPaid.ToString("c"));
                     item.SubItems.Add(m_dtTransaction.ToShortDateString());
                     break;
+                case CUIType.PayPeriodView_ListView:
+                    item.Text = m_szName;
+                    item.SubItems.Add(m_dtTransaction.ToShortDateString());
+                    item.SubItems.Add(m_nCost.ToString("c"));
+                    item.SubItems.Add(m_nAmtPaid.ToString("c"));
+                    break;
                 default:
                     break;
             }

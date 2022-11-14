@@ -38,7 +38,6 @@ namespace CashFlowData
                 DB = JsonConvert.DeserializeObject<CJsonDatabase>(szData);
                 DB.m_szFileName = filename;
                 DB.m_dtLastSaved = DateTime.Now;
-                CreateScheduledTransactions(DateTime.Now.AddDays(-14), DateTime.Now.AddDays(14));
             }
             catch(Exception ex)
             {
@@ -54,7 +53,6 @@ namespace CashFlowData
                 File.WriteAllText(filename, szData);
                 DB.m_szFileName = filename;
                 DB.m_dtLastSaved = DateTime.Now;
-                CreateScheduledTransactions(DateTime.Now.AddDays(-14), DateTime.Now.AddDays(14));
             }
             catch (Exception ex)
             {
@@ -167,6 +165,52 @@ namespace CashFlowData
         #endregion
 
         #region "CAccount Queries"
+        public static decimal GetAccountExpectedTotalAsOf(CAccount acc, DateTime dt)
+        {
+            decimal result = 0M;
+            try
+            {
+                ArrayList transactions = GetTransactions();
+                foreach(CTransaction trans in transactions)
+                {
+                    if(trans.m_nAccountFromID == acc.m_nID)
+                    {
+                        result += -1 * trans.m_nCost;
+                    } else if(trans.m_nAccountToID == acc.m_nID)
+                    {
+                        result += trans.m_nCost;
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return result;
+        }
+        public static decimal GetAccountActualTotalAsOf(CAccount acc, DateTime dt)
+        {
+            decimal result = 0M;
+            try
+            {
+                ArrayList transactions = GetTransactions();
+                foreach (CTransaction trans in transactions)
+                {
+                    if (trans.m_nAccountFromID == acc.m_nID)
+                    {
+                        result += -1 * trans.m_nAmtPaid;
+                    }
+                    else if (trans.m_nAccountToID == acc.m_nID)
+                    {
+                        result += trans.m_nAmtPaid;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return result;
+        }
         public static ArrayList GetAccounts()
         {
             ArrayList ls = new ArrayList();
@@ -236,7 +280,7 @@ namespace CashFlowData
                 ArrayList transactions = GetTransactions();
                 foreach (CTransaction trans in transactions) 
                 {
-                    if(trans.nID == nScheduleID && trans.m_dtTransaction.Equals(dt))
+                    if(trans.m_nScheduleID == nScheduleID && trans.m_dtTransaction.Equals(dt))
                     {
                         result = true;
                         break;
@@ -291,6 +335,40 @@ namespace CashFlowData
         #endregion
 
         #region "CTransactionSchedule Queries"
+        public static decimal GetScheduleExpectedTotalAsOf(CTransactionSchedule sched, DateTime dt)
+        {
+            decimal result = 0M;
+            try
+            {
+                ArrayList transactions = GetTransactions();
+                foreach (CTransaction trans in transactions)
+                {
+                    if(trans.m_nScheduleID == sched.m_nID) result += trans.m_nCost;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return result;
+        }
+        public static decimal GetScheduleActualTotalAsOf(CTransactionSchedule sched, DateTime dt)
+        {
+            decimal result = 0M;
+            try
+            {
+                ArrayList transactions = GetTransactions();
+                foreach (CTransaction trans in transactions)
+                {
+                    if (trans.m_nScheduleID == sched.m_nID) result += trans.m_nAmtPaid;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return result;
+        }
         public static ArrayList GetSchedules()
         {
             ArrayList ls = new ArrayList();
@@ -338,8 +416,9 @@ namespace CashFlowData
         #endregion
 
         #region "Create Scheduled Transactions"
-        public static void CreateScheduledTransactions(DateTime dtStart, DateTime dtEnd)
+        public static ArrayList CreateScheduledTransactions(DateTime dtStart, DateTime dtEnd)
         {
+            ArrayList ls = new ArrayList();
             try
             {
                 ArrayList schedules = GetSchedules();
@@ -348,13 +427,21 @@ namespace CashFlowData
                     ArrayList dates = GetDates(schedule, dtStart, dtEnd);
                     foreach(DateTime dt in dates)
                     {
-                        if (!TransactionExists(schedule.m_nID, dt)) CreateTransFromSched(schedule, dt);
+                        if (!TransactionExists(schedule.m_nID, dt))
+                        {
+                            ls.Add(CreateTransFromSched(schedule, dt));
+                        } else
+                        {
+                            ls.Add(GetTransFromSched(schedule, dt));
+                        }
+                        
                     }
                 }
             }catch(Exception ex)
             {
                 Debug.WriteLine(ex);
             }
+            return ls;
         }
         public static ArrayList GetDates(CTransactionSchedule sched, DateTime dtStart, DateTime dtEnd)
         {
@@ -427,6 +514,26 @@ namespace CashFlowData
                 Debug.WriteLine(ex);
             }
             return result;
+        }
+        public static CTransaction GetTransFromSched(CTransactionSchedule sched, DateTime dt)
+        {
+            CTransaction trans = new CTransaction();
+            try
+            {
+                ArrayList ls = GetTransactions();
+                foreach(CTransaction t in ls)
+                {
+                    if (t.m_nScheduleID==sched.m_nID && t.m_dtTransaction.Equals(dt))
+                    {
+                        trans = t;
+                        break;
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return trans;
         }
         public static CTransaction CreateTransFromSched(CTransactionSchedule sched, DateTime dt)
         {

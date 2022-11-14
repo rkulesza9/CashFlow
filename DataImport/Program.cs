@@ -24,6 +24,10 @@ namespace DataImport
             AddTransScheds(ref CData.DB);
 
             CData.Save(filename);
+
+            Console.WriteLine($"File: {filename}");
+            Console.WriteLine("Data Saved.");
+            Console.Read();
         }
 
         static void AddAccounts(ref CJsonDatabase db)
@@ -108,7 +112,10 @@ namespace DataImport
             CreateTransSched(++nID, "Utilities", NID_FAFCU_BILLS, NID_EXTERNAL, DateTime.Parse("11/14/2022"), 200M,
                              1, CTimeUnit.Months, CTransactionType.Bill));
 
-
+            // income
+            db.tblTransactionSchedule.Add(
+            CreateTransSched(++nID, "Ocean County", NID_EXTERNAL, NID_FAFCU_BILLS, DateTime.Parse("11/9/2022"), 1444.00M,
+                             2, CTimeUnit.Weeks, CTransactionType.Income));
         }
 
         #region "Create DB Object"

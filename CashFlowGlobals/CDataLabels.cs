@@ -17,7 +17,8 @@ namespace CashFlowGlobals
     public enum CTransactionType
     {
         Spend,
-        Bill
+        Bill,
+        Income
     }
     public enum CTimeUnit
     {

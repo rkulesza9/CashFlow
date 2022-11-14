@@ -10,6 +10,8 @@ namespace CashFlowGlobals
     {
         DataViewForm_Accounts,
         DataViewForm_Transactions,
-        DataViewForm_Schedules
+        DataViewForm_Schedules,
+
+        PayPeriodView_ListView
     }
 }

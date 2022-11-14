@@ -33,6 +33,8 @@ namespace CashFlowData
                 case CUIType.DataViewForm_Accounts:
                     item.Text = m_szName;
                     item.SubItems.Add(m_pType.ToString());
+                    item.SubItems.Add(CData.GetAccountExpectedTotalAsOf(this, DateTime.Now).ToString("C"));
+                    item.SubItems.Add(CData.GetAccountActualTotalAsOf(this, DateTime.Now).ToString("C"));
                     item.SubItems.Add(m_szNotes);
                     break;
                 default:

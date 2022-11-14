@@ -53,6 +53,9 @@ namespace CashFlowData
                     item.SubItems.Add(CData.GetAccountByID(m_nAccountToID).m_szName);
                     item.SubItems.Add(m_nCost.ToString("c"));
                     item.SubItems.Add(CData.GetNextTransactionDate(this).ToShortDateString());
+                    item.SubItems.Add(CData.GetScheduleExpectedTotalAsOf(this, DateTime.Now).ToString("C"));
+                    item.SubItems.Add(CData.GetScheduleActualTotalAsOf(this, DateTime.Now).ToString("c"));
+                    item.SubItems.Add(m_szNotes.ToString());
                     break;
                 default:
                     break;
