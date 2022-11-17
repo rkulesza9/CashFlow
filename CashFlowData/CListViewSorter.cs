@@ -44,7 +44,7 @@ namespace CashFlowData
 
             switch (m_pType)
             {
-                case CUIType.DataViewForm_Accounts:
+                case CUIType.ListView_Accounts:
                     xAcc = (CAccount)xData;
                     yAcc = (CAccount)yData;
                     if(m_nColumn == 0) return nSort * xAcc.m_szName.CompareTo(yAcc.m_szName);
@@ -53,7 +53,7 @@ namespace CashFlowData
                     if(m_nColumn == 3) return nSort * Actual(xAcc, dt).CompareTo(Actual(yAcc, dt));
                     if(m_nColumn == 4) return nSort * xAcc.m_szNotes.CompareTo(yAcc.m_szNotes);
                     break;
-                case CUIType.DataViewForm_Schedules:
+                case CUIType.ListView_Schedules:
                     xSched = (CTransactionSchedule)xData;
                     ySched = (CTransactionSchedule)yData;
                     xAcc = CData.GetAccountByID(xSched.m_nAccountFromID);
@@ -71,7 +71,7 @@ namespace CashFlowData
                     if (m_nColumn == 6) return nSort * Actual(xSched, dt).CompareTo(Actual(ySched, dt));
                     if (m_nColumn == 7) return nSort * xSched.m_szNotes.CompareTo(ySched.m_szNotes);
                     break;
-                case CUIType.DataViewForm_Transactions:
+                case CUIType.ListView_Transactions:
                     xTrans = (CTransaction)xData;
                     yTrans = (CTransaction)yData;
                     xAcc = CData.GetAccountByID(xTrans.m_nAccountFromID);
@@ -85,6 +85,14 @@ namespace CashFlowData
                     if (m_nColumn == 4) return nSort * xTrans.m_nAmtPaid.CompareTo(yTrans.m_nAmtPaid);
                     if (m_nColumn == 5) return nSort * xTrans.m_dtTransaction.CompareTo(yTrans.m_dtTransaction);
                     break;
+                case CUIType.PayPeriodView_ListView:
+                    xTrans = (CTransaction)xData;
+                    yTrans = (CTransaction)yData;
+                    if (m_nColumn == 0) return nSort * xTrans.m_szName.CompareTo(yTrans.m_szName);
+                    if (m_nColumn == 1) return nSort * xTrans.m_dtTransaction.CompareTo(yTrans.m_dtTransaction);
+                    if (m_nColumn == 2) return nSort * xTrans.m_nCost.CompareTo(yTrans.m_nCost);
+                    if (m_nColumn == 3) return nSort * xTrans.m_nAmtPaid.CompareTo(yTrans.m_nAmtPaid);
+                    break;
                 default:
                     break;
             }
@@ -93,7 +101,7 @@ namespace CashFlowData
 
         private decimal Actual(CBaseData x, DateTime dt)
         {
-            if(m_pType == CUIType.DataViewForm_Accounts)
+            if(m_pType == CUIType.ListView_Accounts)
             {
                 CAccount xAcc = (CAccount)x;
                 return CData.GetAccountActualTotalAsOf(xAcc, dt);
@@ -105,7 +113,7 @@ namespace CashFlowData
         }
         private decimal Expected(CBaseData x, DateTime dt)
         {
-            if (m_pType == CUIType.DataViewForm_Accounts)
+            if (m_pType == CUIType.ListView_Accounts)
             {
                 CAccount xAcc = (CAccount)x;
                 return CData.GetAccountExpectedTotalAsOf(xAcc, dt);

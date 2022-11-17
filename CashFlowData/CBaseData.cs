@@ -72,13 +72,29 @@ namespace CashFlowData
         [ReadOnly(true)]
         [Category("System")]
         [DisplayName("Archived")]
-        public bool bArchived { get { return m_bArchived; } }
+        public bool bArchived 
+        { 
+            get { return m_bArchived; } 
+            set 
+            { 
+                m_bArchived = value;
+                CData.Save(CData.DB.m_szFileName);
+            }
+        }
         [JsonIgnore]
         [Browsable(true)]
         [ReadOnly(true)]
         [Category("System")]
         [DisplayName("Deleted")]
-        public bool bDeleted { get { return m_bDeleted; } }
+        public bool bDeleted 
+        { 
+            get { return m_bDeleted; }
+            set
+            {
+                m_bDeleted = value;
+                CData.Save(CData.DB.m_szFileName);
+            }
+        }
         [JsonIgnore]
         [Browsable(true)]
         [Category("Properties")]

@@ -45,6 +45,10 @@
             this.scheduledTransactionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transactionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.payPeriodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.archiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.accountsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.scheduledTransactionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.transactionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -93,7 +97,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.viewToolStripMenuItem});
+            this.viewToolStripMenuItem,
+            this.archiveToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(800, 24);
@@ -178,6 +183,37 @@
             this.payPeriodToolStripMenuItem.Text = "Pay Period";
             this.payPeriodToolStripMenuItem.Click += new System.EventHandler(this.payPeriodToolStripMenuItem_Click);
             // 
+            // archiveToolStripMenuItem
+            // 
+            this.archiveToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.accountsToolStripMenuItem1,
+            this.scheduledTransactionsToolStripMenuItem1,
+            this.transactionsToolStripMenuItem1});
+            this.archiveToolStripMenuItem.Name = "archiveToolStripMenuItem";
+            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.archiveToolStripMenuItem.Text = "Archive";
+            // 
+            // accountsToolStripMenuItem1
+            // 
+            this.accountsToolStripMenuItem1.Name = "accountsToolStripMenuItem1";
+            this.accountsToolStripMenuItem1.Size = new System.Drawing.Size(197, 22);
+            this.accountsToolStripMenuItem1.Text = "Accounts";
+            this.accountsToolStripMenuItem1.Click += new System.EventHandler(this.accountsToolStripMenuItem1_Click);
+            // 
+            // scheduledTransactionsToolStripMenuItem1
+            // 
+            this.scheduledTransactionsToolStripMenuItem1.Name = "scheduledTransactionsToolStripMenuItem1";
+            this.scheduledTransactionsToolStripMenuItem1.Size = new System.Drawing.Size(197, 22);
+            this.scheduledTransactionsToolStripMenuItem1.Text = "Scheduled Transactions";
+            this.scheduledTransactionsToolStripMenuItem1.Click += new System.EventHandler(this.scheduledTransactionsToolStripMenuItem1_Click);
+            // 
+            // transactionsToolStripMenuItem1
+            // 
+            this.transactionsToolStripMenuItem1.Name = "transactionsToolStripMenuItem1";
+            this.transactionsToolStripMenuItem1.Size = new System.Drawing.Size(197, 22);
+            this.transactionsToolStripMenuItem1.Text = "Transactions";
+            this.transactionsToolStripMenuItem1.Click += new System.EventHandler(this.transactionsToolStripMenuItem1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -217,6 +253,10 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel lblLastSaveDate;
         private System.Windows.Forms.ToolStripMenuItem payPeriodToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem archiveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem accountsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem scheduledTransactionsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem transactionsToolStripMenuItem1;
     }
 }
 

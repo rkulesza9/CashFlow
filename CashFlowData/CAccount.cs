@@ -30,7 +30,7 @@ namespace CashFlowData
             CListViewTag tag = item.Tag as CListViewTag;
             switch (tag.m_pListViewTypeID)
             {
-                case CUIType.DataViewForm_Accounts:
+                case CUIType.ListView_Accounts:
                     item.Text = m_szName;
                     item.SubItems.Add(m_pType.ToString());
                     item.SubItems.Add(CData.GetAccountExpectedTotalAsOf(this, DateTime.Now).ToString("C"));

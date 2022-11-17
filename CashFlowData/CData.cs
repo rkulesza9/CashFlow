@@ -68,7 +68,7 @@ namespace CashFlowData
             CAccount account = new CAccount();
             try
             {
-                foreach(CAccount acc in DB.tblAccount)
+                foreach (CAccount acc in GetAccounts(true)) 
                 {
                     if(acc.m_nID == id)
                     {
@@ -87,7 +87,7 @@ namespace CashFlowData
             CTransactionSchedule sched = new CTransactionSchedule();
             try
             {
-                foreach(CTransactionSchedule ts in DB.tblTransactionSchedule)
+                foreach(CTransactionSchedule ts in GetSchedules(true))
                 {
                     if(ts.m_nID == id)
                     {
@@ -170,7 +170,7 @@ namespace CashFlowData
             decimal result = 0M;
             try
             {
-                ArrayList transactions = GetTransactions();
+                ArrayList transactions = GetTransactions(true);
                 foreach(CTransaction trans in transactions)
                 {
                     if(trans.m_nAccountFromID == acc.m_nID)
@@ -192,7 +192,7 @@ namespace CashFlowData
             decimal result = 0M;
             try
             {
-                ArrayList transactions = GetTransactions();
+                ArrayList transactions = GetTransactions(true);
                 foreach (CTransaction trans in transactions)
                 {
                     if (trans.m_nAccountFromID == acc.m_nID)
@@ -211,14 +211,17 @@ namespace CashFlowData
             }
             return result;
         }
-        public static ArrayList GetAccounts()
+        public static ArrayList GetAccounts(bool bArchived = false, bool bDeleted = false)
         {
             ArrayList ls = new ArrayList();
             try
             {
                 foreach(CAccount account in DB.tblAccount)
                 {
-                    if (account.bArchived || account.bDeleted) continue;
+                    bool bExitCondition = false;
+                    if (!bArchived) bExitCondition = bExitCondition || account.bArchived;
+                    if (!bDeleted) bExitCondition = bExitCondition || account.bDeleted;
+                    if (bExitCondition) continue;
                     ls.Add(account);
                 }
             }catch (Exception ex)
@@ -227,12 +230,29 @@ namespace CashFlowData
             }
             return ls;
         }
-        public static ArrayList SearchAccounts(string szText)
+        public static ArrayList GetArchivedAccounts()
         {
             ArrayList ls = new ArrayList();
             try
             {
-                foreach(CAccount acct in GetAccounts())
+                foreach (CAccount account in DB.tblAccount)
+                {
+                    if (account.m_bArchived && !account.m_bDeleted) ls.Add(account);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return ls;
+
+        }
+        public static ArrayList SearchAccounts(string szText, bool bArchived = false)
+        {
+            ArrayList ls = new ArrayList();
+            try
+            {
+                foreach(CAccount acct in GetAccounts(bArchived))
                 {
                     szText = szText.Trim().ToLower();
                     string[] terms = szText.Split(new char[] { ' ', ',' });
@@ -254,14 +274,18 @@ namespace CashFlowData
         #endregion
 
         #region "CTransaction Queries"
-        public static ArrayList GetTransactions()
+        public static ArrayList GetTransactions(bool bArchived=false, bool bDeleted=false)
         {
             ArrayList ls = new ArrayList();
             try
             {
                 foreach (CTransaction trans in DB.tblTransaction)
                 {
-                    if (trans.bArchived || trans.bDeleted) continue;
+                    bool bExitCondition = false;
+                    if(!bArchived) bExitCondition = bExitCondition || trans.bArchived;
+                    if (!bDeleted) bExitCondition = bExitCondition || trans.bDeleted;
+                    if (bExitCondition) continue;
+
                     ls.Add(trans);
                 }
 
@@ -272,12 +296,29 @@ namespace CashFlowData
             }
             return ls;
         }
+        public static ArrayList GetArchivedTransactions()
+        {
+            ArrayList ls = new ArrayList();
+            try
+            {
+                foreach (CTransaction trans in DB.tblTransaction)
+                {
+                    if (trans.m_bArchived && !trans.m_bDeleted) ls.Add(trans);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return ls;
+
+        }
         public static bool TransactionExists(int nScheduleID, DateTime dt)
         {
             bool result = false;
             try
             {
-                ArrayList transactions = GetTransactions();
+                ArrayList transactions = GetTransactions(true);
                 foreach (CTransaction trans in transactions) 
                 {
                     if(trans.m_nScheduleID == nScheduleID && trans.m_dtTransaction.Equals(dt))
@@ -292,12 +333,12 @@ namespace CashFlowData
             }
             return result;
         }
-        public static ArrayList SearchTransactions(string szText)
+        public static ArrayList SearchTransactions(string szText, bool bArchived=false)
         {
             ArrayList ls = new ArrayList();
             try
             {
-                foreach (CTransaction acct in GetTransactions())
+                foreach (CTransaction acct in GetTransactions(bArchived))
                 {
                     szText = szText.Trim().ToLower();
                     string[] terms = szText.Split(new char[] { ' ', ',' });
@@ -340,7 +381,7 @@ namespace CashFlowData
             decimal result = 0M;
             try
             {
-                ArrayList transactions = GetTransactions();
+                ArrayList transactions = GetTransactions(true);
                 foreach (CTransaction trans in transactions)
                 {
                     if(trans.m_nScheduleID == sched.m_nID) result += trans.m_nCost;
@@ -357,7 +398,7 @@ namespace CashFlowData
             decimal result = 0M;
             try
             {
-                ArrayList transactions = GetTransactions();
+                ArrayList transactions = GetTransactions(true);
                 foreach (CTransaction trans in transactions)
                 {
                     if (trans.m_nScheduleID == sched.m_nID) result += trans.m_nAmtPaid;
@@ -369,14 +410,17 @@ namespace CashFlowData
             }
             return result;
         }
-        public static ArrayList GetSchedules()
+        public static ArrayList GetSchedules(bool bArchived=false, bool bDeleted=false)
         {
             ArrayList ls = new ArrayList();
             try
             {
                 foreach (CTransactionSchedule sched in DB.tblTransactionSchedule)
                 {
-                    if (sched.bArchived || sched.bDeleted) continue;
+                    bool bExitCondition = false;
+                    if (!bArchived) bExitCondition = bExitCondition || sched.bArchived;
+                    if (!bDeleted) bExitCondition = bExitCondition || sched.bDeleted;
+                    if (bExitCondition) continue;
                     ls.Add(sched);
                 }
 
@@ -387,12 +431,29 @@ namespace CashFlowData
             }
             return ls;
         }
-        public static ArrayList SearchSchedules(string szText)
+        public static ArrayList GetArchivedSchedules()
         {
             ArrayList ls = new ArrayList();
             try
             {
-                foreach (CTransactionSchedule acct in GetSchedules())
+                foreach (CTransactionSchedule sched in DB.tblTransactionSchedule)
+                {
+                    if (sched.m_bArchived && !sched.m_bDeleted) ls.Add(sched);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return ls;
+
+        }
+        public static ArrayList SearchSchedules(string szText, bool bArchived = false)
+        {
+            ArrayList ls = new ArrayList();
+            try
+            {
+                foreach (CTransactionSchedule acct in GetSchedules(bArchived))
                 {
                     szText = szText.Trim().ToLower();
                     string[] terms = szText.Split(new char[] { ' ', ',' });
@@ -445,6 +506,8 @@ namespace CashFlowData
         }
         public static ArrayList GetDates(CTransactionSchedule sched, DateTime dtStart, DateTime dtEnd)
         {
+            dtStart = dtStart.Date;
+            dtEnd = dtEnd.Date;
             ArrayList ls = new ArrayList(); 
             try
             {

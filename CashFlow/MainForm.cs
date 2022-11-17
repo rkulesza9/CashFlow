@@ -18,6 +18,7 @@ namespace CashFlow
         public string m_szFile;
         public DataViewForm m_dvfm;
         public PayPeriodView m_payPeriod;
+        public ArchiveForm m_archive;
         public MainForm()
         {
             InitializeComponent();
@@ -46,7 +47,7 @@ namespace CashFlow
                     // open accounts form
                     if (!(m_dvfm is null) && !m_dvfm.IsDisposed) m_dvfm.Close();
                     m_dvfm = new DataViewForm();
-                    m_dvfm.m_pType = CUIType.DataViewForm_Accounts;
+                    m_dvfm.m_pType = CUIType.ListView_Accounts;
                     m_dvfm.m_szFilename = m_szFile;
                     m_dvfm.Initialize(this);
                 }
@@ -78,7 +79,7 @@ namespace CashFlow
                     // open accounts form
                     if (!(m_dvfm is null) && !m_dvfm.IsDisposed) m_dvfm.Close();
                     m_dvfm = new DataViewForm();
-                    m_dvfm.m_pType = CUIType.DataViewForm_Accounts;
+                    m_dvfm.m_pType = CUIType.ListView_Accounts;
                     m_dvfm.m_szFilename = m_szFile;
                     m_dvfm.Initialize(this);
                 }
@@ -154,7 +155,7 @@ namespace CashFlow
                 if (!(m_dvfm is null) && !m_dvfm.IsDisposed) m_dvfm.Close();
 
                 m_dvfm = new DataViewForm();
-                m_dvfm.m_pType = CUIType.DataViewForm_Accounts;
+                m_dvfm.m_pType = CUIType.ListView_Accounts;
                 m_dvfm.m_szFilename = m_szFile;
                 m_dvfm.Initialize(this);
             }catch(Exception ex)
@@ -170,7 +171,7 @@ namespace CashFlow
             {
                 if (!(m_dvfm is null) && !m_dvfm.IsDisposed) m_dvfm.Close();
                 m_dvfm = new DataViewForm();
-                m_dvfm.m_pType = CUIType.DataViewForm_Schedules;
+                m_dvfm.m_pType = CUIType.ListView_Schedules;
                 m_dvfm.m_szFilename = m_szFile;
                 m_dvfm.Initialize(this);
 
@@ -189,7 +190,7 @@ namespace CashFlow
             {
                 if (!(m_dvfm is null) && !m_dvfm.IsDisposed) m_dvfm.Close();
                 m_dvfm = new DataViewForm();
-                m_dvfm.m_pType = CUIType.DataViewForm_Transactions;
+                m_dvfm.m_pType = CUIType.ListView_Transactions;
                 m_dvfm.m_szFilename = m_szFile;
                 m_dvfm.Initialize(this);
 
@@ -211,12 +212,65 @@ namespace CashFlow
                 }
                 m_payPeriod.MdiParent = this;
                 m_payPeriod.Show();
+                m_payPeriod.BringToFront();
 
             }catch(Exception ex)
             {
                 MessageBox.Show("payPeriodToolStripMenuItem_Click");
                 Debug.WriteLine(ex);
 
+            }
+        }
+
+        private void accountsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!(m_archive is null) && !m_archive.IsDisposed) m_archive.Close();
+                m_archive = new ArchiveForm();
+                m_archive.m_pType = CUIType.ListView_Accounts;
+                m_archive.m_szFilename = m_szFile;
+                m_archive.Initialize(this);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("accountsToolStripMenuItem1_Click");
+                Debug.WriteLine(ex);
+            }
+        }
+
+        private void scheduledTransactionsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!(m_archive is null) && !m_archive.IsDisposed) m_archive.Close();
+                m_archive = new ArchiveForm();
+                m_archive.m_pType = CUIType.ListView_Schedules;
+                m_archive.m_szFilename = m_szFile;
+                m_archive.Initialize(this);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("scheduledTransactionsToolStripMenuItem1_Click");
+                Debug.WriteLine(ex);
+            }
+        }
+
+        private void transactionsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!(m_archive is null) && !m_archive.IsDisposed) m_archive.Close();
+                m_archive = new ArchiveForm();
+                m_archive.m_pType = CUIType.ListView_Transactions;
+                m_archive.m_szFilename = m_szFile;
+                m_archive.Initialize(this);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("transactionsToolStripMenuItem1_Click");
+                Debug.WriteLine(ex);
             }
         }
     }

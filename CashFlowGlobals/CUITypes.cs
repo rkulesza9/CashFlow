@@ -8,9 +8,13 @@ namespace CashFlowGlobals
 {
     public enum CUIType
     {
-        DataViewForm_Accounts,
-        DataViewForm_Transactions,
-        DataViewForm_Schedules,
+        ListView_Accounts,
+        ListView_Transactions,
+        ListView_Schedules,
+
+        Archive_Accounts,
+        Archive_Transactions,
+        Archive_Schedules,
 
         PayPeriodView_ListView
     }

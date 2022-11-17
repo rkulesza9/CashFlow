@@ -23,8 +23,18 @@ namespace CashFlow
             InitializeComponent();
             pgTrans.PropertyValueChanged += PgTrans_PropertyValueChanged;
             WindowState = FormWindowState.Maximized;
+            lvTrans.ListViewItemSorter = new CListViewSorter(CUIType.PayPeriodView_ListView, 0, SortOrder.Ascending);
+            lvTrans.ColumnClick += LvTrans_ColumnClick;
 
             m_pData = new ArrayList();
+        }
+
+        private void LvTrans_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            SortOrder pSortOrder = SortOrder.Ascending;
+            CListViewSorter sorter = (CListViewSorter)lvTrans.ListViewItemSorter;
+            if (pSortOrder == sorter.m_pOrder) pSortOrder = SortOrder.Descending;
+            lvTrans.ListViewItemSorter = new CListViewSorter(CUIType.PayPeriodView_ListView, e.Column, pSortOrder);
         }
 
         private void PgTrans_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -63,7 +73,7 @@ namespace CashFlow
             decimal actSpend = 0M;
             decimal actFree = 0M;
 
-            foreach(CTransaction trans in m_pData)
+            foreach(CTransaction trans in CData.GetTransactions())
             {
                 if(trans.m_pType == CTransactionType.Income)
                 {

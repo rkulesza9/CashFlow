@@ -47,7 +47,7 @@ namespace CashFlowData
             CListViewTag tag = item.Tag as CListViewTag;
             switch (tag.m_pListViewTypeID)
             {
-                case CUIType.DataViewForm_Schedules:
+                case CUIType.ListView_Schedules:
                     item.Text = m_szName;
                     item.SubItems.Add(CData.GetAccountByID(m_nAccountFromID).m_szName);
                     item.SubItems.Add(CData.GetAccountByID(m_nAccountToID).m_szName);

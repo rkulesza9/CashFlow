@@ -68,19 +68,19 @@ namespace CashFlow
             {
                 switch (m_pType)
                 {
-                    case CUIType.DataViewForm_Accounts:
+                    case CUIType.ListView_Accounts:
                         m_pData = CData.GetAccounts();
-                        m_pColumns = CConstants.COLUMNS_ACCOUNT;
+                        m_pColumns = CListViewColumns.GetColumnsFor(m_pType);
                         Text = "View Accounts";
                         break;
-                    case CUIType.DataViewForm_Transactions:
+                    case CUIType.ListView_Transactions:
                         m_pData = CData.GetTransactions();
-                        m_pColumns = CConstants.COLUMNS_TRANSACTION;
+                        m_pColumns = CListViewColumns.GetColumnsFor(m_pType);
                         Text = "View Transactions";
                         break;
-                    case CUIType.DataViewForm_Schedules:
+                    case CUIType.ListView_Schedules:
                         m_pData= CData.GetSchedules();
-                        m_pColumns = CConstants.COLUMNS_SCHEDULE;
+                        m_pColumns = CListViewColumns.GetColumnsFor(m_pType);
                         Text = "View Schedules";
                         break;
                     default:
@@ -210,13 +210,13 @@ namespace CashFlow
                 CBaseData newData = new CBaseData();
                 switch (m_pType)
                 {
-                    case CUIType.DataViewForm_Accounts:
+                    case CUIType.ListView_Accounts:
                         newData = CData.NewAccount();
                         break;
-                    case CUIType.DataViewForm_Transactions:
+                    case CUIType.ListView_Transactions:
                         newData = CData.NewTransaction();
                         break;
-                    case CUIType.DataViewForm_Schedules:
+                    case CUIType.ListView_Schedules:
                         newData = CData.NewSchedule();
                         break;
                     default:
@@ -243,13 +243,13 @@ namespace CashFlow
             {
                 switch (m_pType)
                 {
-                    case CUIType.DataViewForm_Accounts:
+                    case CUIType.ListView_Accounts:
                         PopulateListView(CData.SearchAccounts(tbSearch.Text));
                         break;
-                    case CUIType.DataViewForm_Transactions:
+                    case CUIType.ListView_Transactions:
                         PopulateListView(CData.SearchTransactions(tbSearch.Text));
                         break;
-                    case CUIType.DataViewForm_Schedules:
+                    case CUIType.ListView_Schedules:
                         PopulateListView(CData.SearchSchedules(tbSearch.Text));
                         break;
                     default:
@@ -270,13 +270,13 @@ namespace CashFlow
                 tbSearch.Text = "";
                 switch (m_pType)
                 {
-                    case CUIType.DataViewForm_Accounts:
+                    case CUIType.ListView_Accounts:
                         PopulateListView(CData.SearchAccounts(tbSearch.Text));
                         break;
-                    case CUIType.DataViewForm_Transactions:
+                    case CUIType.ListView_Transactions:
                         PopulateListView(CData.SearchTransactions(tbSearch.Text));
                         break;
-                    case CUIType.DataViewForm_Schedules:
+                    case CUIType.ListView_Schedules:
                         PopulateListView(CData.SearchSchedules(tbSearch.Text));
                         break;
                     default:
