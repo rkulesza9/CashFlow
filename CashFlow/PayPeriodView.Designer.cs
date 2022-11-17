@@ -45,6 +45,8 @@
             this.lblExpSpend = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel7 = new System.Windows.Forms.ToolStripLabel();
             this.lblExpFree = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
+            this.lblExpCredit = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -56,13 +58,15 @@
             this.lblActSpend = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel17 = new System.Windows.Forms.ToolStripLabel();
             this.lblActFree = new System.Windows.Forms.ToolStripLabel();
+            this.lbl = new System.Windows.Forms.ToolStripLabel();
+            this.lblActCredit = new System.Windows.Forms.ToolStripLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.pgTrans = new System.Windows.Forms.PropertyGrid();
             this.lvTrans = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.pgTrans = new System.Windows.Forms.PropertyGrid();
             this.flowLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
@@ -141,7 +145,9 @@
             this.toolStripLabel9,
             this.lblExpSpend,
             this.toolStripLabel7,
-            this.lblExpFree});
+            this.lblExpFree,
+            this.toolStripLabel4,
+            this.lblExpCredit});
             this.toolStrip1.Location = new System.Drawing.Point(0, 31);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
@@ -212,6 +218,19 @@
             this.lblExpFree.Size = new System.Drawing.Size(34, 22);
             this.lblExpFree.Text = "$0.00";
             // 
+            // toolStripLabel4
+            // 
+            this.toolStripLabel4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.toolStripLabel4.Name = "toolStripLabel4";
+            this.toolStripLabel4.Size = new System.Drawing.Size(44, 22);
+            this.toolStripLabel4.Text = "Credit:";
+            // 
+            // lblExpCredit
+            // 
+            this.lblExpCredit.Name = "lblExpCredit";
+            this.lblExpCredit.Size = new System.Drawing.Size(34, 22);
+            this.lblExpCredit.Text = "$0.00";
+            // 
             // toolStrip2
             // 
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -224,7 +243,9 @@
             this.toolStripLabel15,
             this.lblActSpend,
             this.toolStripLabel17,
-            this.lblActFree});
+            this.lblActFree,
+            this.lbl,
+            this.lblActCredit});
             this.toolStrip2.Location = new System.Drawing.Point(0, 56);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(800, 25);
@@ -295,6 +316,19 @@
             this.lblActFree.Size = new System.Drawing.Size(34, 22);
             this.lblActFree.Text = "$0.00";
             // 
+            // lbl
+            // 
+            this.lbl.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lbl.Name = "lbl";
+            this.lbl.Size = new System.Drawing.Size(44, 22);
+            this.lbl.Text = "Credit:";
+            // 
+            // lblActCredit
+            // 
+            this.lblActCredit.Name = "lblActCredit";
+            this.lblActCredit.Size = new System.Drawing.Size(34, 22);
+            this.lblActCredit.Text = "$0.00";
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -312,16 +346,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(800, 369);
             this.splitContainer1.SplitterDistance = 204;
             this.splitContainer1.TabIndex = 3;
-            // 
-            // pgTrans
-            // 
-            this.pgTrans.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pgTrans.HelpVisible = false;
-            this.pgTrans.Location = new System.Drawing.Point(0, 0);
-            this.pgTrans.Name = "pgTrans";
-            this.pgTrans.Size = new System.Drawing.Size(800, 161);
-            this.pgTrans.TabIndex = 0;
-            this.pgTrans.ToolbarVisible = false;
             // 
             // lvTrans
             // 
@@ -357,6 +381,16 @@
             // columnHeader4
             // 
             this.columnHeader4.Text = "Actual Cost";
+            // 
+            // pgTrans
+            // 
+            this.pgTrans.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pgTrans.HelpVisible = false;
+            this.pgTrans.Location = new System.Drawing.Point(0, 0);
+            this.pgTrans.Name = "pgTrans";
+            this.pgTrans.Size = new System.Drawing.Size(800, 161);
+            this.pgTrans.TabIndex = 0;
+            this.pgTrans.ToolbarVisible = false;
             // 
             // PayPeriodView
             // 
@@ -420,5 +454,9 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel4;
+        private System.Windows.Forms.ToolStripLabel lblExpCredit;
+        private System.Windows.Forms.ToolStripLabel lbl;
+        private System.Windows.Forms.ToolStripLabel lblActCredit;
     }
 }

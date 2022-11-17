@@ -18,7 +18,8 @@ namespace CashFlowGlobals
     {
         Spend,
         Bill,
-        Income
+        Income,
+        Credit
     }
     public enum CTimeUnit
     {

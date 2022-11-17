@@ -67,33 +67,61 @@ namespace CashFlow
             decimal expIncome = 0M;
             decimal expBills = 0M;
             decimal expSpend = 0M;
+            decimal absSpend = 0M;
+            decimal absBills = 0M;
             decimal expFree = 0M;
             decimal actIncome = 0M;
             decimal actBills = 0M;
             decimal actSpend = 0M;
             decimal actFree = 0M;
+            decimal actCredit = 0M;
+            decimal expCredit = 0M;
 
-            foreach(CTransaction trans in CData.GetTransactions())
+            foreach(CTransaction trans in CData.GetTransactions(true))
             {
+                CAccount acc = CData.GetAccountByID(trans.m_nAccountToID);
+                int nDirection = acc.m_pType == CAccountType.External ? -1 : 1;
+                
+
                 if(trans.m_pType == CTransactionType.Income)
                 {
-                    expIncome += trans.m_nCost;
-                    actIncome += trans.m_nAmtPaid;
+                    expIncome += nDirection * trans.m_nCost;
+                    actIncome += nDirection * trans.m_nAmtPaid;
                 }
                 else if(trans.m_pType == CTransactionType.Bill)
                 {
-                    expBills += trans.m_nCost;
-                    actBills += trans.m_nAmtPaid;
+                    expBills += nDirection * trans.m_nCost;
+                    actBills += nDirection * trans.m_nAmtPaid;
                 }
                 else if(trans.m_pType == CTransactionType.Spend)
                 {
-                    expSpend += trans.m_nCost;
-                    actSpend += trans.m_nAmtPaid;
+                    expSpend += nDirection * trans.m_nCost;
+                    actSpend += nDirection * trans.m_nAmtPaid;
+
+                    if(nDirection == -1)
+                    {
+                        actFree -= trans.m_nCost;
+                        expFree -= trans.m_nAmtPaid;
+                    }
+                }
+                else if(trans.m_pType == CTransactionType.Credit)
+                {
+                    expCredit += nDirection * trans.m_nCost;
+                    actCredit += nDirection * trans.m_nAmtPaid;
                 }
             }
 
-            expFree = expIncome - (expBills + expSpend);
-            actFree = actIncome - (actBills + actSpend);
+            expIncome = Math.Abs(expIncome);
+            actIncome = Math.Abs(actIncome);
+            expBills = Math.Abs(expBills);
+            actBills = Math.Abs(actBills);
+            expSpend = Math.Abs(expSpend);
+            actSpend = Math.Abs(actSpend);
+            expCredit = Math.Abs(expCredit);
+            actCredit = Math.Abs(actCredit);
+
+            expFree += expIncome - (expBills + expSpend);
+            actFree += actIncome - (actBills + actSpend);
 
             lblExpIncome.Text = expIncome.ToString("c");
             lblActIncome.Text = actIncome.ToString("c");
@@ -103,6 +131,8 @@ namespace CashFlow
             lblActSpend.Text = actSpend.ToString("C");
             lblExpFree.Text = expFree.ToString("c");
             lblActFree.Text = actFree.ToString("C");
+            lblExpCredit.Text = expCredit.ToString("C");
+            lblActCredit.Text = actCredit.ToString("C");
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
