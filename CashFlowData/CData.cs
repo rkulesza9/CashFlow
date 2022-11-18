@@ -173,6 +173,7 @@ namespace CashFlowData
                 ArrayList transactions = GetTransactions(true);
                 foreach(CTransaction trans in transactions)
                 {
+                    if (trans.m_dtTransaction > dt) continue;
                     if(trans.m_nAccountFromID == acc.m_nID)
                     {
                         result += -1 * trans.m_nCost;
@@ -195,6 +196,7 @@ namespace CashFlowData
                 ArrayList transactions = GetTransactions(true);
                 foreach (CTransaction trans in transactions)
                 {
+                    if (trans.m_dtTransaction > dt) continue;
                     if (trans.m_nAccountFromID == acc.m_nID)
                     {
                         result += -1 * trans.m_nAmtPaid;
@@ -384,6 +386,7 @@ namespace CashFlowData
                 ArrayList transactions = GetTransactions(true);
                 foreach (CTransaction trans in transactions)
                 {
+                    if (trans.m_dtTransaction > dt) continue;
                     if(trans.m_nScheduleID == sched.m_nID) result += trans.m_nCost;
                 }
             }
@@ -401,6 +404,7 @@ namespace CashFlowData
                 ArrayList transactions = GetTransactions(true);
                 foreach (CTransaction trans in transactions)
                 {
+                    if (trans.m_dtTransaction > dt) continue;
                     if (trans.m_nScheduleID == sched.m_nID) result += trans.m_nAmtPaid;
                 }
             }

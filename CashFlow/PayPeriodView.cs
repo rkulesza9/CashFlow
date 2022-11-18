@@ -79,6 +79,10 @@ namespace CashFlow
 
             foreach(CTransaction trans in CData.GetTransactions(true))
             {
+                DateTime dt1 = dtFrom.Value.Date;
+                DateTime dt2 = dtTo.Value.Date;
+                if (dt1 > trans.dtTransaction.Date || trans.dtTransaction.Date >= dt2) continue;
+
                 CAccount acc = CData.GetAccountByID(trans.m_nAccountToID);
                 int nDirection = acc.m_pType == CAccountType.External ? -1 : 1;
                 
