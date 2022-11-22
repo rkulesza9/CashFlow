@@ -23,6 +23,10 @@ namespace CashFlow
         {
             InitializeComponent();
             m_szFile = "";
+
+            string szStartMsg = "Wait to recieve bank notification before updating this app.";
+            string szStartTitle = "Important";
+            MessageBox.Show(szStartMsg, szStartTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         #region "Event Listener"
