@@ -22,6 +22,7 @@ namespace CashFlow
         public MainForm()
         {
             InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
             m_szFile = "";
 
             string szStartMsg = "Wait to recieve bank notification before updating this app.";

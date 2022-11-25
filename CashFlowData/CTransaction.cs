@@ -4,6 +4,7 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace CashFlowData
             switch (tag.m_pListViewTypeID)
             {
                 case CUIType.ListView_Transactions:
-                    item.Text = m_szName;
+                    item.Text = m_szName;                    
                     item.SubItems.Add(CData.GetAccountByID(m_nAccountFromID).m_szName);
                     item.SubItems.Add(CData.GetAccountByID(m_nAccountToID).m_szName);
                     item.SubItems.Add(m_nCost.ToString("c"));
@@ -52,6 +53,10 @@ namespace CashFlowData
                     break;
                 case CUIType.PayPeriodView_ListView:
                     item.Text = m_szName;
+
+                    if (m_nAmtPaid == m_nCost) item.BackColor = Color.LightGreen;
+                    else if (m_nAmtPaid > 0 && m_nAmtPaid < m_nCost) item.BackColor = Color.LightYellow;
+
                     item.SubItems.Add(m_dtTransaction.ToShortDateString());
                     item.SubItems.Add(m_nCost.ToString("c"));
                     item.SubItems.Add(m_nAmtPaid.ToString("c"));
