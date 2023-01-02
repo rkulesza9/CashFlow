@@ -11,16 +11,16 @@ using System.Windows.Forms;
 
 namespace CashFlowApp
 {
-    public partial class TransactionForm : Form
+    public partial class FmTransaction : Form
     {
-        public TransactionForm()
+        public FmTransaction()
         {
             InitializeComponent();
             pgEditor.PropertyValueChanged += PgEditor_PropertyValueChanged;
             lvDataView.ColumnClick += LvDataView_ColumnClick;
             lvDataView.ListViewItemSorter = new CListViewComparer(CDefines.UI_LISTVIEW_TRANS, 0, SortOrder.Ascending);
 
-            PopulateTransactions();
+            PopulateTransactions("");
         }
 
         #region "Events"
@@ -58,7 +58,8 @@ namespace CashFlowApp
         {
             try
             {
-
+                PopulateTransactions(tbSearch.Text);
+                pgEditor.SelectedObject = null;
             }
             catch (Exception ex)
             {
@@ -71,7 +72,9 @@ namespace CashFlowApp
         {
             try
             {
-
+                PopulateTransactions("");
+                tbSearch.Text = "";
+                pgEditor.SelectedObject = null;
             }
             catch (Exception ex)
             {
@@ -150,13 +153,13 @@ namespace CashFlowApp
         }
         #endregion
 
-        public void PopulateTransactions()
+        public void PopulateTransactions(string szTerms)
         {
             lvDataView.BeginUpdate();
             lvDataView.Items.Clear();
             lvDataView.Columns.Clear();
             lvDataView.Columns.AddRange(CDefines.UI_LISTVIEW_TRANS_COLUMNS);
-            foreach(CTransaction trans in CJsonDatabase.Instance.GetTransactions())
+            foreach(CTransaction trans in CJsonDatabase.Instance.GetTransactions(szTerms))
             {
                 CListViewItem item = trans.CreateListViewItem(CDefines.UI_LISTVIEW_TRANS);
                 lvDataView.Items.Add(item);

@@ -26,7 +26,7 @@ namespace CashFlowApp
                 UpdateStatusBar(CJsonDatabase.Instance.m_szFileName, DateTime.Now);
                 m_pOpenForms = new ArrayList();
 
-                OpenForm(new TransactionForm());
+                OpenForm(new FmTransaction());
             }
             catch(Exception ex)
             {
@@ -52,7 +52,7 @@ namespace CashFlowApp
                     Properties.Settings.Default.Save();
 
                     CloseOpenForms();
-                    OpenForm(new TransactionForm());
+                    OpenForm(new FmTransaction());
 
                 }
             }
@@ -93,7 +93,7 @@ namespace CashFlowApp
                     Properties.Settings.Default.Save();
 
                     CloseOpenForms();
-                    OpenForm(new TransactionForm());
+                    OpenForm(new FmTransaction());
                 }
 
             }
@@ -131,7 +131,7 @@ namespace CashFlowApp
         {
             try
             {
-                OpenForm(new TransactionForm());
+                OpenForm(new FmTransaction());
             }
             catch (Exception ex)
             {

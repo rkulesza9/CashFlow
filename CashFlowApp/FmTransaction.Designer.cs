@@ -1,6 +1,6 @@
 ﻿namespace CashFlowApp
 {
-    partial class TransactionForm
+    partial class FmTransaction
     {
         /// <summary>
         /// Required designer variable.

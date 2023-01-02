@@ -81,11 +81,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TransactionForm.cs">
+    <Compile Include="FmTransaction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TransactionForm.Designer.cs">
-      <DependentUpon>TransactionForm.cs</DependentUpon>
+    <Compile Include="FmTransaction.Designer.cs">
+      <DependentUpon>FmTransaction.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="FmArchivedTrans.resx">
       <DependentUpon>FmArchivedTrans.cs</DependentUpon>
@@ -106,8 +106,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="TransactionForm.resx">
-      <DependentUpon>TransactionForm.cs</DependentUpon>
+    <EmbeddedResource Include="FmTransaction.resx">
+      <DependentUpon>FmTransaction.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

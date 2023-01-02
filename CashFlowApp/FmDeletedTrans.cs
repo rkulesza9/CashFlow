@@ -20,7 +20,7 @@ namespace CashFlowApp
             lvDataView.ColumnClick += LvDataView_ColumnClick;
             lvDataView.ListViewItemSorter = new CListViewComparer(CDefines.UI_LISTVIEW_TRANS, 0, SortOrder.Ascending);
 
-            PopulateTransactions();
+            PopulateTransactions("");
         }
         #region "Events"
         private void lvDataView_SelectedIndexChanged(object sender, EventArgs e)
@@ -72,6 +72,8 @@ namespace CashFlowApp
         {
             try
             {
+                PopulateTransactions(tbSearch.Text);
+                pgEditor.SelectedObject = null;
 
             }
             catch (Exception ex)
@@ -86,7 +88,9 @@ namespace CashFlowApp
         {
             try
             {
-
+                PopulateTransactions("");
+                tbSearch.Text = "";
+                pgEditor.SelectedObject = null;
             }
             catch (Exception ex)
             {
@@ -133,13 +137,13 @@ namespace CashFlowApp
             }
         }
         #endregion
-        public void PopulateTransactions()
+        public void PopulateTransactions(string szSearchText)
         {
             lvDataView.BeginUpdate();
             lvDataView.Items.Clear();
             lvDataView.Columns.Clear();
             lvDataView.Columns.AddRange(CDefines.UI_LISTVIEW_TRANS_COLUMNS);
-            foreach (CTransaction trans in CJsonDatabase.Instance.GetTransactions("", false, false, true))
+            foreach (CTransaction trans in CJsonDatabase.Instance.GetTransactions(szSearchText, false, false, true))
             {
                 CListViewItem item = trans.CreateListViewItem(CDefines.UI_LISTVIEW_TRANS);
                 lvDataView.Items.Add(item);
