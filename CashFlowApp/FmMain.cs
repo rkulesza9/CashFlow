@@ -14,10 +14,10 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace CashFlowApp
 {
-    public partial class MainForm : Form
+    public partial class FmMain : Form
     {
         public ArrayList m_pOpenForms;
-        public MainForm()
+        public FmMain()
         {
             InitializeComponent();
             try
@@ -131,10 +131,7 @@ namespace CashFlowApp
         {
             try
             {
-                TransactionForm fm = new TransactionForm();
-                fm.MdiParent = this;
-                fm.WindowState = FormWindowState.Maximized;
-                fm.Show();
+                OpenForm(new TransactionForm());
             }
             catch (Exception ex)
             {
@@ -160,13 +157,28 @@ namespace CashFlowApp
         {
             try
             {
-                
+                OpenForm(new FmArchivedTrans());
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("btnArchivedTrans_Click");
                 Debug.WriteLine(ex);
             }
+        }
+        private void deletedTransactionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenForm(new FmDeletedTrans());
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("deletedTransactionsToolStripMenuItem_Click");
+                Debug.WriteLine(ex);
+            }
+
         }
         #endregion
 
@@ -205,5 +217,6 @@ namespace CashFlowApp
 
             m_pOpenForms.Clear();
         }
+
     }
 }

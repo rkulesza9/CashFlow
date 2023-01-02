@@ -1,6 +1,6 @@
 ﻿namespace CashFlowApp
 {
-    partial class MainForm
+    partial class FmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -45,6 +45,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFilename = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblLastSave = new System.Windows.Forms.ToolStripStatusLabel();
+            this.deletedTransactionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -52,14 +53,15 @@
             // btnArchivedTrans
             // 
             this.btnArchivedTrans.Name = "btnArchivedTrans";
-            this.btnArchivedTrans.Size = new System.Drawing.Size(180, 22);
-            this.btnArchivedTrans.Text = "Transactions";
+            this.btnArchivedTrans.Size = new System.Drawing.Size(189, 22);
+            this.btnArchivedTrans.Text = "Archived Transactions";
             this.btnArchivedTrans.Click += new System.EventHandler(this.btnArchivedTrans_Click);
             // 
             // archiveToolStripMenuItem
             // 
             this.archiveToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnArchivedTrans});
+            this.btnArchivedTrans,
+            this.deletedTransactionsToolStripMenuItem});
             this.archiveToolStripMenuItem.Name = "archiveToolStripMenuItem";
             this.archiveToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.archiveToolStripMenuItem.Text = "Archive";
@@ -183,6 +185,13 @@
             this.lblLastSave.Size = new System.Drawing.Size(65, 17);
             this.lblLastSave.Text = "lblLastSave";
             // 
+            // deletedTransactionsToolStripMenuItem
+            // 
+            this.deletedTransactionsToolStripMenuItem.Name = "deletedTransactionsToolStripMenuItem";
+            this.deletedTransactionsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.deletedTransactionsToolStripMenuItem.Text = "Deleted Transactions";
+            this.deletedTransactionsToolStripMenuItem.Click += new System.EventHandler(this.deletedTransactionsToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -221,6 +230,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblFilename;
         private System.Windows.Forms.ToolStripStatusLabel lblLastSave;
+        private System.Windows.Forms.ToolStripMenuItem deletedTransactionsToolStripMenuItem;
     }
 }
 

@@ -52,14 +52,21 @@ namespace CashFlowApp
         public const string SETTINGS_LAST_OPENED_FILE = "szLastOpenedFile";
 
         public const int UI_LISTVIEW_TRANS = 0;
-        public static readonly CColHdr[] UI_LISTVIEW_TRANS_COLUMNS = new CColHdr[]
+        public static CColHdr[] UI_LISTVIEW_TRANS_COLUMNS
         {
-            new CColHdr("Name"),
-            new CColHdr("Status"),
-            new CColHdr("Type"),
-            new CColHdr("Description"),
-            new CColHdr("Cost"),
-            new CColHdr("Recurs Every..."),
-        };
+            get
+            {
+                return new CColHdr[]
+                {
+                    new CColHdr("Name"),
+                    new CColHdr("Status"),
+                    new CColHdr("Type"),
+                    new CColHdr("Description"),
+                    new CColHdr("Cost"),
+                    new CColHdr("Recurs Every..."),
+                };
+            }
+        }
+
     }
 }

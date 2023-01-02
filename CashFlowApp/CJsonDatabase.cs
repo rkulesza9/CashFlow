@@ -107,12 +107,41 @@ namespace CashFlowApp
             return data;
         }
 
-        public List<CTransaction> GetTransactions(bool bArchived=false, bool bDeleted = false)
+        public List<CTransaction> GetTransactions(string szSearchTerms="", bool bActive=true, bool bArchived=false, bool bDeleted = false)
         {
-            return m_lsTransactions.Where((trans) =>
+            List<CTransaction> ls =  m_lsTransactions.Where((trans) =>
             {
-                return (bArchived && bDeleted) || (bArchived & !trans.bDeleted) || (bDeleted && !trans.bArchived) || (!trans.bDeleted && !trans.bArchived);
+                bool bCondition = false;
+                if (bActive)
+                {
+                    bCondition = bCondition || (!trans.bArchived && !trans.bDeleted);
+                }
+                if (bArchived)
+                {
+                    bCondition = bCondition || (trans.bArchived);
+                }
+                if (bDeleted)
+                {
+                    bCondition = bCondition || (trans.bDeleted);
+                }
+                return bCondition;
             }).ToList();
+
+            List<CTransaction> lsResults = new List<CTransaction>();
+            string[] lsSearchTerms = szSearchTerms.Split(new char[] { ' ' });
+            foreach(CTransaction trans in ls)
+            {
+                string szText = trans.szName + trans.szDescription + trans.szTransStatus + trans.szTransType + trans.szTimePeriod;
+                szText = szText.ToLower();
+                bool bContainsSearchTerm = true;
+                foreach(string term in lsSearchTerms)
+                {
+                    bContainsSearchTerm = szText.Contains(term.ToLower());
+                    if (!bContainsSearchTerm) break;
+                }
+                if (bContainsSearchTerm) lsResults.Add(trans);
+            }
+            return lsResults;
         }
 
         public void Save(string szFileName)
