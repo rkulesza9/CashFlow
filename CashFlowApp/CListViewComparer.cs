@@ -24,7 +24,7 @@ namespace CashFlowApp
         {
             CBaseData xData = GetData(x);
             CBaseData yData = GetData(y);
-            //CProject xProj, yProj;
+            CTransaction xTrans, yTrans;
             //CResource xRes, yRes;
             int nOrder = m_pSortOrder == SortOrder.Ascending ? 1 : -1;
 
@@ -34,14 +34,17 @@ namespace CashFlowApp
 
             switch (m_nListViewTypeID)
             {
-                //case CDefines.UI_LISTVIEW_PROJECTS:
-                //    xProj = (CProject)xData;
-                //    yProj = (CProject)yData;
-                //    if (m_nColumn == 0) return nOrder * xProj.m_szName.CompareTo(yProj.m_szName);
-                //    if (m_nColumn == 1) return nOrder * xProj.szStatus.CompareTo(yProj.szStatus);
-                //    if (m_nColumn == 2) return nOrder * xProj.m_dtLastWorkedOn.CompareTo(yProj.m_dtLastWorkedOn);
-                //    if (m_nColumn == 3) return nOrder * xProj.m_szShortNote.CompareTo(yProj.m_szShortNote);
-                //    break;
+                case CDefines.UI_LISTVIEW_TRANS:
+                    xTrans = (CTransaction)xData;
+                    yTrans = (CTransaction)yData;
+                    if (m_nColumn == 0) return nOrder * xTrans.m_szName.CompareTo(yTrans.m_szName);
+                    if (m_nColumn == 1) return nOrder * xTrans.szTransStatus.CompareTo(yTrans.szTransStatus);
+                    if (m_nColumn == 2) return nOrder * xTrans.szTransType.CompareTo(yTrans.szTransType);
+                    if (m_nColumn == 3) return nOrder * xTrans.m_szDescription.CompareTo(yTrans.m_szDescription);
+                    if (m_nColumn == 4) return nOrder * xTrans.m_nCost.CompareTo(yTrans.m_nCost);
+                    if (m_nColumn == 5) return nOrder * xTrans.m_nTimesPerPeriod.CompareTo(yTrans.m_nTimesPerPeriod);
+                    if (m_nColumn == 6) return nOrder * xTrans.szTimePeriod.CompareTo(yTrans.szTimePeriod);
+                    break;
                 default:
                     break;
             }

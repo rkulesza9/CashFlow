@@ -107,6 +107,14 @@ namespace CashFlowApp
             return data;
         }
 
+        public List<CTransaction> GetTransactions(bool bArchived=false, bool bDeleted = false)
+        {
+            return m_lsTransactions.Where((trans) =>
+            {
+                return (bArchived && bDeleted) || (bArchived & !trans.bDeleted) || (bDeleted && !trans.bArchived) || (!trans.bDeleted && !trans.bArchived);
+            }).ToList();
+        }
+
         public void Save(string szFileName)
         {
             string szJson = JsonConvert.SerializeObject(this, Formatting.Indented);

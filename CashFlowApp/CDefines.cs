@@ -12,35 +12,6 @@ namespace CashFlowApp
 
         public const int TYPE_TRANSACTION = 0;
 
-        public const int UI_LISTVIEW_PROJECTS = 0;
-        public const int UI_LISTVIEW_RESOURCES = 1;
-        public static CColHdr[] UI_COLUMNS_PROJECTS
-        {
-                get {
-                    return new CColHdr[]
-                        {
-                            new CColHdr("Name"),
-                            new CColHdr("Status"),
-                            new CColHdr("Last Worked On"),
-                            new CColHdr("Short Note")
-                        };
-                }
-        }
-
-        public static CColHdr[] UI_COLUMNS_RESOURCES
-        {
-            get
-            {
-                return new CColHdr[]
-                {
-                    new CColHdr("Name"),
-                    new CColHdr("Description")
-
-                };
-            }
-        }
-
-
         public const int TRANS_TYPE_INCOME = 0;
         public const int TRANS_TYPE_BILL = 1;
         public const int TRANS_TYPE_CREDIT = 2;
@@ -65,12 +36,14 @@ namespace CashFlowApp
             "Canceled"
         };
 
-        public const int TRANS_TIMEPERIOD_WEEK = 0;
-        public const int TRANS_TIMEPERIOD_MONTH = 1;
-        public const int TRANS_TIMEPERIOD_YEAR = 2;
+        public const int TRANS_TIMEPERIOD_NONE = 0;
+        public const int TRANS_TIMEPERIOD_WEEK = 1;
+        public const int TRANS_TIMEPERIOD_MONTH = 2;
+        public const int TRANS_TIMEPERIOD_YEAR = 3;
 
         public static readonly string[] TRANS_TIMEPERIOD_LABELS = new string[]
         {
+            "None",
             "Week",
             "Month",
             "Year"
@@ -78,6 +51,15 @@ namespace CashFlowApp
 
         public const string SETTINGS_LAST_OPENED_FILE = "szLastOpenedFile";
 
-        
+        public const int UI_LISTVIEW_TRANS = 0;
+        public static readonly CColHdr[] UI_LISTVIEW_TRANS_COLUMNS = new CColHdr[]
+        {
+            new CColHdr("Name"),
+            new CColHdr("Status"),
+            new CColHdr("Type"),
+            new CColHdr("Description"),
+            new CColHdr("Cost"),
+            new CColHdr("Recurs Every..."),
+        };
     }
 }

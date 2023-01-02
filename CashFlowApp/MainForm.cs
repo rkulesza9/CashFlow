@@ -25,6 +25,8 @@ namespace CashFlowApp
                 CJsonDatabase.Initialize(GetLastFile());
                 UpdateStatusBar(CJsonDatabase.Instance.m_szFileName, DateTime.Now);
                 m_pOpenForms = new ArrayList();
+
+                OpenForm(new TransactionForm());
             }
             catch(Exception ex)
             {
@@ -47,6 +49,11 @@ namespace CashFlowApp
                     CJsonDatabase.Initialize(pDialog.FileName);
                     UpdateStatusBar(pDialog.FileName, DateTime.Now);
                     Properties.Settings.Default[CDefines.SETTINGS_LAST_OPENED_FILE] = pDialog.FileName;
+                    Properties.Settings.Default.Save();
+
+                    CloseOpenForms();
+                    OpenForm(new TransactionForm());
+
                 }
             }
             catch (Exception ex)
@@ -83,6 +90,10 @@ namespace CashFlowApp
                     CJsonDatabase.Initialize(pDialog.FileName);
                     UpdateStatusBar(pDialog.FileName, DateTime.Now);
                     Properties.Settings.Default[CDefines.SETTINGS_LAST_OPENED_FILE] = pDialog.FileName;
+                    Properties.Settings.Default.Save();
+
+                    CloseOpenForms();
+                    OpenForm(new TransactionForm());
                 }
 
             }
@@ -120,7 +131,10 @@ namespace CashFlowApp
         {
             try
             {
-
+                TransactionForm fm = new TransactionForm();
+                fm.MdiParent = this;
+                fm.WindowState = FormWindowState.Maximized;
+                fm.Show();
             }
             catch (Exception ex)
             {
@@ -146,7 +160,7 @@ namespace CashFlowApp
         {
             try
             {
-
+                
             }
             catch (Exception ex)
             {
@@ -172,6 +186,24 @@ namespace CashFlowApp
         {
             lblFilename.Text = filename;
             lblLastSave.Text = dtLastSaved.ToString();
+        }
+
+        public void OpenForm(Form fm)
+        {
+            fm.MdiParent = this;
+            fm.WindowState = FormWindowState.Maximized;
+            fm.Show();
+
+            m_pOpenForms.Add(fm);
+        }
+        public void CloseOpenForms()
+        {
+            foreach(Form fm in m_pOpenForms)
+            {
+                fm.Close();
+            }
+
+            m_pOpenForms.Clear();
         }
     }
 }

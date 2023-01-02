@@ -39,7 +39,7 @@ namespace CashFlowApp
                 m_bDeleted = false;
                 m_nCost = 0;
                 m_nTimesPerPeriod = 0;
-                m_nTimePeriodID = CDefines.TRANS_TIMEPERIOD_MONTH;
+                m_nTimePeriodID = CDefines.TRANS_TIMEPERIOD_NONE;
             }
             catch (Exception ex)
             {
@@ -54,8 +54,17 @@ namespace CashFlowApp
                 item.Text = "";
                 item.SubItems.Clear();
 
+                item.Text = m_szName; 
                 switch (item.m_nListViewTypeID)
                 {
+                    case CDefines.UI_LISTVIEW_TRANS:
+                        item.SubItems.Add(szTransType);
+                        item.SubItems.Add(szTransStatus);
+                        item.SubItems.Add(m_szDescription);
+                        item.SubItems.Add(m_nCost.ToString("C"));
+                        item.SubItems.Add(m_nTimePeriodID == CDefines.TRANS_TIMEPERIOD_NONE ? "" : $"{m_nTimesPerPeriod} {szTimePeriod}s");
+                        item.SubItems.Add(szTimePeriod);
+                        break;
                     default:
                         break;
                 }
