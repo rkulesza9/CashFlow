@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashFlowGlobals", "CashFlow
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataImport", "DataImport\DataImport.csproj", "{AE39D279-110D-4CD3-800F-57418B25A406}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashFlowApp", "CashFlowApp\CashFlowApp.csproj", "{33D8EEAD-B1DB-4ED8-9A32-34D1550D067C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AE39D279-110D-4CD3-800F-57418B25A406}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE39D279-110D-4CD3-800F-57418B25A406}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE39D279-110D-4CD3-800F-57418B25A406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33D8EEAD-B1DB-4ED8-9A32-34D1550D067C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33D8EEAD-B1DB-4ED8-9A32-34D1550D067C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33D8EEAD-B1DB-4ED8-9A32-34D1550D067C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33D8EEAD-B1DB-4ED8-9A32-34D1550D067C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
