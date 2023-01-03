@@ -52,6 +52,7 @@ namespace CashFlowApp
         public const string SETTINGS_LAST_OPENED_FILE = "szLastOpenedFile";
 
         public const int UI_LISTVIEW_TRANS = 0;
+        public const int UI_LISTVIEW_PAYPERIOD = 1;
         public static CColHdr[] UI_LISTVIEW_TRANS_COLUMNS
         {
             get
@@ -64,6 +65,19 @@ namespace CashFlowApp
                     new CColHdr("Description"),
                     new CColHdr("Cost"),
                     new CColHdr("Recurs Every..."),
+                };
+            }
+        }
+        public static CColHdr[] UI_LISTVIEW_PAYPERIOD_COLUMNS
+        {
+            get
+            {
+                return new CColHdr[]
+                {
+                    new CColHdr("Name"),
+                    new CColHdr("Status"),
+                    new CColHdr("Type"),
+                    new CColHdr("Cost")
                 };
             }
         }

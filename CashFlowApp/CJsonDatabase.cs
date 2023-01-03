@@ -144,6 +144,14 @@ namespace CashFlowApp
             return lsResults;
         }
 
+        public bool TransactionExists(string name, DateTime dtStart)
+        {
+            return m_lsTransactions.Where((trans) =>
+            {
+                return trans.m_szName.Equals(name) && trans.m_dtStartDate.ToShortDateString().Equals(dtStart.ToShortDateString()) ;
+            }).Count() > 0;
+        }
+
         public void Save(string szFileName)
         {
             string szJson = JsonConvert.SerializeObject(this, Formatting.Indented);

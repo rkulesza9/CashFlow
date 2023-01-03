@@ -45,6 +45,14 @@ namespace CashFlowApp
                     if (m_nColumn == 5) return nOrder * xTrans.m_nTimesPerPeriod.CompareTo(yTrans.m_nTimesPerPeriod);
                     if (m_nColumn == 6) return nOrder * xTrans.szTimePeriod.CompareTo(yTrans.szTimePeriod);
                     break;
+                case CDefines.UI_LISTVIEW_PAYPERIOD:
+                    xTrans = (CTransaction)xData;
+                    yTrans = (CTransaction)yData;
+                    if (m_nColumn == 0) return nOrder * xTrans.m_szName.CompareTo(yTrans.m_szName);
+                    if (m_nColumn == 1) return nOrder * xTrans.szTransStatus.CompareTo(yTrans.szTransStatus);
+                    if (m_nColumn == 2) return nOrder * xTrans.szTransType.CompareTo(yTrans.szTransType);
+                    if (m_nColumn == 3) return nOrder * xTrans.m_nCost.CompareTo(yTrans.m_nCost);
+                    break;
                 default:
                     break;
             }

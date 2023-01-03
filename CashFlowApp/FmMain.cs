@@ -144,7 +144,9 @@ namespace CashFlowApp
         {
             try
             {
-
+                CPayPeriod pp = new CPayPeriod(DateTime.Now.AddDays(-7), DateTime.Now.AddDays(7), CJsonDatabase.Instance.GetTransactions());
+                OpenForm(new FmPayPeriod(pp));
+                
             }
             catch (Exception ex)
             {
@@ -204,6 +206,10 @@ namespace CashFlowApp
         {
             fm.MdiParent = this;
             fm.WindowState = FormWindowState.Maximized;
+            fm.FormClosed += (sender, e) =>
+            {
+                m_pOpenForms.Remove(fm);
+            };
             fm.Show();
 
             m_pOpenForms.Add(fm);
