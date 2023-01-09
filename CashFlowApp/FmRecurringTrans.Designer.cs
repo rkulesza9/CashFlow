@@ -1,6 +1,6 @@
 ﻿namespace CashFlowApp
 {
-    partial class FmTransaction
+    partial class FmRecurringTrans
     {
         /// <summary>
         /// Required designer variable.
@@ -166,14 +166,14 @@
             this.pgEditor.TabIndex = 0;
             this.pgEditor.ToolbarVisible = false;
             // 
-            // TransactionForm
+            // FmTransaction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.splitContainer1);
-            this.Name = "TransactionForm";
-            this.Text = "Transactions";
+            this.Name = "FmTransaction";
+            this.Text = "Recurring Transactions";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);

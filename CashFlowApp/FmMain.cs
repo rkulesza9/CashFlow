@@ -26,7 +26,7 @@ namespace CashFlowApp
                 UpdateStatusBar(CJsonDatabase.Instance.m_szFileName, DateTime.Now);
                 m_pOpenForms = new ArrayList();
 
-                OpenForm(new FmTransaction());
+                OpenForm(new FmRecurringTrans());
             }
             catch(Exception ex)
             {
@@ -52,7 +52,7 @@ namespace CashFlowApp
                     Properties.Settings.Default.Save();
 
                     CloseOpenForms();
-                    OpenForm(new FmTransaction());
+                    OpenForm(new FmRecurringTrans());
 
                 }
             }
@@ -93,7 +93,7 @@ namespace CashFlowApp
                     Properties.Settings.Default.Save();
 
                     CloseOpenForms();
-                    OpenForm(new FmTransaction());
+                    OpenForm(new FmRecurringTrans());
                 }
 
             }
@@ -131,7 +131,7 @@ namespace CashFlowApp
         {
             try
             {
-                OpenForm(new FmTransaction());
+                OpenForm(new FmRecurringTrans());
             }
             catch (Exception ex)
             {
@@ -145,6 +145,7 @@ namespace CashFlowApp
             try
             {
                 CPayPeriod pp = new CPayPeriod(DateTime.Now.AddDays(-7), DateTime.Now.AddDays(7), CJsonDatabase.Instance.GetTransactions());
+                pp.m_lsCredit.AddRange(CJsonDatabase.Instance.GetCreditTrans(DateTime.Now.AddDays(-7), DateTime.Now.AddDays(7)));
                 OpenForm(new FmPayPeriod(pp));
                 
             }

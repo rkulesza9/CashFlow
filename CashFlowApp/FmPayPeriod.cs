@@ -24,6 +24,7 @@ namespace CashFlowApp
                 lvCredit.ListViewItemSorter = new CListViewComparer(CDefines.UI_LISTVIEW_PAYPERIOD, 0, SortOrder.Ascending);
                 lvBills.ColumnClick += LvBills_ColumnClick;
                 lvCredit.ColumnClick += LvCredit_ColumnClick;
+                pgEdit.PropertyValueChanged += PgEdit_PropertyValueChanged;
                 m_pPayPeriod = pp;
 
                 PopulateUI();
@@ -35,7 +36,27 @@ namespace CashFlowApp
             }
         }
 
+
         #region "events"
+        private void PgEdit_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            try
+            {
+                foreach (CColHdr col in lvBills.Columns)
+                {
+                    col.Width = -2;
+                }
+                foreach (CColHdr col in lvCredit.Columns)
+                {
+                    col.Width = -2;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("pgEdit_PropertyValueChanged");
+                Debug.WriteLine(ex);
+            }
+        }
         private void LvCredit_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             try
@@ -71,8 +92,12 @@ namespace CashFlowApp
         {
             try
             {
+                m_pPayPeriod = new CPayPeriod(dtFrom.Value, dtTo.Value, CJsonDatabase.Instance.GetTransactions("", true, false, false, true));
+                m_pPayPeriod.m_lsCredit.AddRange(CJsonDatabase.Instance.GetCreditTrans(dtFrom.Value, dtTo.Value));
 
-            }catch(Exception ex)
+                PopulateUI();
+            }
+            catch(Exception ex)
             {
                 MessageBox.Show("btnSubmit_Click");
                 Debug.WriteLine(ex);
@@ -83,7 +108,15 @@ namespace CashFlowApp
         {
             try
             {
+                CTransaction trans = (CTransaction) CJsonDatabase.Instance.Fetch(CDefines.TYPE_TRANSACTION, "");
+                trans.dtStartDate = DateTime.Now;
+                trans.m_nTransTypeID = CDefines.TRANS_TYPE_CREDIT;
 
+                CListViewItem item = trans.CreateListViewItem(CDefines.UI_LISTVIEW_PAYPERIOD);
+                lvCredit.Items.Add(item);
+                item.Selected = true;
+
+                
             }
             catch (Exception ex)
             {
@@ -96,7 +129,12 @@ namespace CashFlowApp
         {
             try
             {
+                if (lvCredit.SelectedItems.Count == 0) return;
+                CListViewItem item = (CListViewItem)lvCredit.SelectedItems[0];
+                CTransaction trans = (CTransaction)item.Tag;
+                trans.bArchived = true;
 
+                lvCredit.Items.Remove(item);
             }
             catch (Exception ex)
             {
@@ -110,7 +148,12 @@ namespace CashFlowApp
         {
             try
             {
+                if (lvCredit.SelectedItems.Count == 0) return;
+                CListViewItem item = (CListViewItem)lvCredit.SelectedItems[0];
+                CTransaction trans = (CTransaction)item.Tag;
+                trans.bDeleted = true;
 
+                lvCredit.Items.Remove(item);
             }
             catch (Exception ex)
             {
@@ -123,7 +166,11 @@ namespace CashFlowApp
         {
             try
             {
+                if (lvBills.SelectedItems.Count == 0) return;
+                CListViewItem item = (CListViewItem)lvBills.SelectedItems[0];
+                CTransaction trans = (CTransaction)item.Tag;
 
+                pgEdit.SelectedObject = trans;
             }
             catch (Exception ex)
             {
@@ -136,6 +183,11 @@ namespace CashFlowApp
         {
             try
             {
+                if (lvCredit.SelectedItems.Count == 0) return;
+                CListViewItem item = (CListViewItem)lvCredit.SelectedItems[0];
+                CTransaction trans = (CTransaction)item.Tag;
+
+                pgEdit.SelectedObject = trans;
 
             }
             catch (Exception ex)
@@ -165,7 +217,7 @@ namespace CashFlowApp
             lblCreditTotal.Text = m_pPayPeriod.m_nCreditTotal.ToString("C");
         }
 
-        public void PopulateListView(ListView listView, ArrayList data)
+        public void PopulateListView(ListView listView, ArrayList data) 
         {
             listView.BeginUpdate();
             listView.Items.Clear();

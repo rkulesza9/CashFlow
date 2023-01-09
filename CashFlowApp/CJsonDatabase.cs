@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Schema;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -107,7 +108,7 @@ namespace CashFlowApp
             return data;
         }
 
-        public List<CTransaction> GetTransactions(string szSearchTerms="", bool bActive=true, bool bArchived=false, bool bDeleted = false)
+        public List<CTransaction> GetTransactions(string szSearchTerms="", bool bActive=true, bool bArchived=false, bool bDeleted = false, bool bOnlyRecurring=false, bool bOnlyNotRecurring=false)
         {
             List<CTransaction> ls =  m_lsTransactions.Where((trans) =>
             {
@@ -123,6 +124,14 @@ namespace CashFlowApp
                 if (bDeleted)
                 {
                     bCondition = bCondition || (trans.bDeleted);
+                }
+                if (bOnlyRecurring)
+                {
+                    bCondition = bCondition && trans.m_nTimePeriodID != CDefines.TRANS_TIMEPERIOD_NONE;
+                }
+                if (bOnlyNotRecurring)
+                {
+                    bCondition = bCondition && trans.m_nTimePeriodID == CDefines.TRANS_TIMEPERIOD_NONE;
                 }
                 return bCondition;
             }).ToList();
@@ -150,6 +159,22 @@ namespace CashFlowApp
             {
                 return trans.m_szName.Equals(name) && trans.m_dtStartDate.ToShortDateString().Equals(dtStart.ToShortDateString()) ;
             }).Count() > 0;
+        }
+
+        public CTransaction GetTransactionByNameAndDate(string name, DateTime dtStart)
+        {
+            return m_lsTransactions.Where((trans) =>
+            {
+                return trans.m_szName.Equals(name) && trans.m_dtStartDate.ToShortDateString().Equals(dtStart.ToShortDateString());
+            }).ToList()[0];
+        }
+
+        public List<CTransaction> GetCreditTrans(DateTime dt1, DateTime dt2)
+        {
+            return m_lsTransactions.Where((trans) =>
+            {
+                return dt1 <= trans.m_dtStartDate && trans.m_dtStartDate <= dt2 && trans.m_nTransTypeID == CDefines.TRANS_TYPE_CREDIT;
+            }).ToList();
         }
 
         public void Save(string szFileName)

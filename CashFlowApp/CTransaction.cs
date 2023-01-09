@@ -82,61 +82,6 @@ namespace CashFlowApp
             }
         }
 
-        public ArrayList CreateTransactions(DateTime dtStart, DateTime dtEnd)
-        {
-            ArrayList ls = new ArrayList();
-            if (m_nTimePeriodID == CDefines.TRANS_TIMEPERIOD_NONE) return ls;
-            if (m_dtStartDate > dtEnd) return ls;
-
-            DateTime dtIncrement = m_dtStartDate;
-            while(dtIncrement < dtEnd)
-            {
-                if (!CJsonDatabase.Instance.TransactionExists(m_szName, m_dtStartDate))
-                {
-                    CTransaction trans = (CTransaction)CJsonDatabase.Instance.Fetch(CDefines.TYPE_TRANSACTION, "");
-                    trans.CreateFrom(this);
-                    trans.m_dtStartDate = dtIncrement;
-                    ls.Add(trans);
-                }
-
-                switch (m_nTimePeriodID)
-                {
-                    case CDefines.TRANS_TIMEPERIOD_WEEK:
-                        dtIncrement = dtIncrement.AddDays(7);
-                        break;
-                    case CDefines.TRANS_TIMEPERIOD_MONTH:
-                        dtIncrement = dtIncrement.AddMonths(1);
-                        break;
-                    case CDefines.TRANS_TIMEPERIOD_YEAR:
-                        dtIncrement = dtIncrement.AddYears(1);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            return ls;
-        }
-        public void CreateFrom(CTransaction trans)
-        {
-            try
-            {
-                m_szName = trans.m_szName;
-                m_szDescription = trans.m_szDescription;
-                m_nTransTypeID = trans.m_nTransTypeID;
-                m_nTransStatusID = trans.m_nTransStatusID;
-                m_bArchived = trans.m_bArchived;
-                m_bDeleted = trans.m_bDeleted;
-                m_nCost = trans.m_nCost;
-                //m_nTimesPerPeriod = trans.m_nTimesPerPeriod;
-                //m_nTimePeriodID = trans.m_nTimePeriodID;
-                m_dtStartDate = trans.m_dtStartDate;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-        }
 
         #region "Property Grid"
         [JsonIgnore]

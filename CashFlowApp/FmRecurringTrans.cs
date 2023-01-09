@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace CashFlowApp
 {
-    public partial class FmTransaction : Form
+    public partial class FmRecurringTrans : Form
     {
-        public FmTransaction()
+        public FmRecurringTrans()
         {
             InitializeComponent();
             pgEditor.PropertyValueChanged += PgEditor_PropertyValueChanged;
@@ -159,7 +159,7 @@ namespace CashFlowApp
             lvDataView.Items.Clear();
             lvDataView.Columns.Clear();
             lvDataView.Columns.AddRange(CDefines.UI_LISTVIEW_TRANS_COLUMNS);
-            foreach(CTransaction trans in CJsonDatabase.Instance.GetTransactions(szTerms))
+            foreach(CTransaction trans in CJsonDatabase.Instance.GetTransactions(szTerms,true,false,false,true))
             {
                 CListViewItem item = trans.CreateListViewItem(CDefines.UI_LISTVIEW_TRANS);
                 lvDataView.Items.Add(item);

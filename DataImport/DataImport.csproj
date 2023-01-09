@@ -50,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CashFlowApp\CashFlowApp.csproj">
+      <Project>{33d8eead-b1db-4ed8-9a32-34d1550d067c}</Project>
+      <Name>CashFlowApp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CashFlowData\CashFlowData.csproj">
       <Project>{84B2B0B8-0AA0-4362-A7FA-FA444401A389}</Project>
       <Name>CashFlowData</Name>
