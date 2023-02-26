@@ -26,6 +26,17 @@ namespace CashFlowApp
                 lvCredit.ColumnClick += LvCredit_ColumnClick;
                 pgEdit.PropertyValueChanged += PgEdit_PropertyValueChanged;
                 m_pPayPeriod = pp;
+                
+
+                if (!Properties.Settings.Default[CDefines.SETTINGS_PAYPERIOD_DATE_FROM].Equals(new DateTime()))
+                {
+                    pp.m_dtStart = (DateTime)Properties.Settings.Default[CDefines.SETTINGS_PAYPERIOD_DATE_FROM];
+                }
+                if (!Properties.Settings.Default[CDefines.SETTINGS_PAYPERIOD_DATE_TO].Equals(new DateTime()))
+                {
+                    pp.m_dtEnd = (DateTime)Properties.Settings.Default[CDefines.SETTINGS_PAYPERIOD_DATE_TO];
+                }
+                
 
                 PopulateUI();
             }
@@ -65,6 +76,9 @@ namespace CashFlowApp
                 SortOrder pOrder = SortOrder.Ascending;
                 if (pOrder == comparer.m_pSortOrder) pOrder = SortOrder.Descending;
                 lvCredit.ListViewItemSorter = new CListViewComparer(CDefines.UI_LISTVIEW_PAYPERIOD, e.Column, pOrder);
+
+                m_pPayPeriod.UpdateTotals();
+                PopulateUI();
             }
             catch (Exception ex)
             {
@@ -81,6 +95,9 @@ namespace CashFlowApp
                 SortOrder pOrder = SortOrder.Ascending;
                 if (pOrder == comparer.m_pSortOrder) pOrder = SortOrder.Descending;
                 lvBills.ListViewItemSorter = new CListViewComparer(CDefines.UI_LISTVIEW_PAYPERIOD, e.Column, pOrder);
+
+                m_pPayPeriod.UpdateTotals();
+                PopulateUI();
             }
             catch (Exception ex)
             {
@@ -92,9 +109,10 @@ namespace CashFlowApp
         {
             try
             {
-                m_pPayPeriod = new CPayPeriod(dtFrom.Value, dtTo.Value, CJsonDatabase.Instance.GetTransactions("", true, false, false, true));
-                m_pPayPeriod.m_lsCredit.AddRange(CJsonDatabase.Instance.GetCreditTrans(dtFrom.Value, dtTo.Value));
-
+                Properties.Settings.Default[CDefines.SETTINGS_PAYPERIOD_DATE_FROM] = dtFrom.Value;
+                Properties.Settings.Default[CDefines.SETTINGS_PAYPERIOD_DATE_TO] = dtTo.Value;
+                Properties.Settings.Default.Save();
+                m_pPayPeriod = new CPayPeriod(dtFrom.Value, dtTo.Value, CJsonDatabase.Instance.GetActiveTransactions(""));
                 PopulateUI();
             }
             catch(Exception ex)
@@ -112,11 +130,10 @@ namespace CashFlowApp
                 trans.dtStartDate = DateTime.Now;
                 trans.m_nTransTypeID = CDefines.TRANS_TYPE_CREDIT;
 
-                CListViewItem item = trans.CreateListViewItem(CDefines.UI_LISTVIEW_PAYPERIOD);
-                lvCredit.Items.Add(item);
-                item.Selected = true;
+                m_pPayPeriod.m_lsCredit.Add(trans);
 
-                
+                m_pPayPeriod.UpdateTotals();
+                PopulateUI();
             }
             catch (Exception ex)
             {

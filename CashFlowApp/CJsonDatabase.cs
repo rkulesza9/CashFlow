@@ -108,75 +108,6 @@ namespace CashFlowApp
             return data;
         }
 
-        public List<CTransaction> GetTransactions(string szSearchTerms="", bool bActive=true, bool bArchived=false, bool bDeleted = false, bool bOnlyRecurring=false, bool bOnlyNotRecurring=false)
-        {
-            List<CTransaction> ls =  m_lsTransactions.Where((trans) =>
-            {
-                bool bCondition = false;
-                if (bActive)
-                {
-                    bCondition = bCondition || (!trans.bArchived && !trans.bDeleted);
-                }
-                if (bArchived)
-                {
-                    bCondition = bCondition || (trans.bArchived);
-                }
-                if (bDeleted)
-                {
-                    bCondition = bCondition || (trans.bDeleted);
-                }
-                if (bOnlyRecurring)
-                {
-                    bCondition = bCondition && trans.m_nTimePeriodID != CDefines.TRANS_TIMEPERIOD_NONE;
-                }
-                if (bOnlyNotRecurring)
-                {
-                    bCondition = bCondition && trans.m_nTimePeriodID == CDefines.TRANS_TIMEPERIOD_NONE;
-                }
-                return bCondition;
-            }).ToList();
-
-            List<CTransaction> lsResults = new List<CTransaction>();
-            string[] lsSearchTerms = szSearchTerms.Split(new char[] { ' ' });
-            foreach(CTransaction trans in ls)
-            {
-                string szText = trans.szName + trans.szDescription + trans.szTransStatus + trans.szTransType + trans.szTimePeriod;
-                szText = szText.ToLower();
-                bool bContainsSearchTerm = true;
-                foreach(string term in lsSearchTerms)
-                {
-                    bContainsSearchTerm = szText.Contains(term.ToLower());
-                    if (!bContainsSearchTerm) break;
-                }
-                if (bContainsSearchTerm) lsResults.Add(trans);
-            }
-            return lsResults;
-        }
-
-        public bool TransactionExists(string name, DateTime dtStart)
-        {
-            return m_lsTransactions.Where((trans) =>
-            {
-                return trans.m_szName.Equals(name) && trans.m_dtStartDate.ToShortDateString().Equals(dtStart.ToShortDateString()) ;
-            }).Count() > 0;
-        }
-
-        public CTransaction GetTransactionByNameAndDate(string name, DateTime dtStart)
-        {
-            return m_lsTransactions.Where((trans) =>
-            {
-                return trans.m_szName.Equals(name) && trans.m_dtStartDate.ToShortDateString().Equals(dtStart.ToShortDateString());
-            }).ToList()[0];
-        }
-
-        public List<CTransaction> GetCreditTrans(DateTime dt1, DateTime dt2)
-        {
-            return m_lsTransactions.Where((trans) =>
-            {
-                return dt1 <= trans.m_dtStartDate && trans.m_dtStartDate <= dt2 && trans.m_nTransTypeID == CDefines.TRANS_TYPE_CREDIT;
-            }).ToList();
-        }
-
         public void Save(string szFileName)
         {
             string szJson = JsonConvert.SerializeObject(this, Formatting.Indented);
@@ -208,6 +139,74 @@ namespace CashFlowApp
             }
         }
 
+
+        public List<CTransaction> SearchTransList(string szSearchTerms, List<CTransaction> lsAllTrans)
+        {
+            List<CTransaction> lsResults = new List<CTransaction>();
+            string[] lsSearchTerms = szSearchTerms.Split(new char[] { ' ' });
+            foreach (CTransaction trans in lsAllTrans)
+            {
+                string szText = trans.szName + trans.szDescription + trans.szTransStatus + trans.szTransType + trans.szTimePeriod;
+                szText = szText.ToLower();
+                bool bContainsSearchTerm = true;
+                foreach (string term in lsSearchTerms)
+                {
+                    bContainsSearchTerm = szText.Contains(term.ToLower());
+                    if (!bContainsSearchTerm) break;
+                }
+                if (bContainsSearchTerm) lsResults.Add(trans);
+            }
+            return lsResults;
+        }
+        public List<CTransaction> GetActiveTransactions(string szSearchTerms)
+        {
+            List<CTransaction> lsTrans = m_lsTransactions.Where((trans) =>
+            {
+                return !trans.m_bArchived && !trans.m_bDeleted;
+            }).ToList();
+
+            return SearchTransList(szSearchTerms, lsTrans);
+        }
+        public List<CTransaction> GetRecurringTransactions(string szSearchTerms)
+        {
+            return GetActiveTransactions(szSearchTerms).Where((trans) =>
+            {
+                return trans.m_nParentID == CDefines.DEFAULT_ID;
+            }).ToList();
+        }
+        public List<CTransaction> GetNonRecurringTransactions(string szSearchTerms)
+        {
+            return GetActiveTransactions(szSearchTerms).Where((trans) =>
+            {
+                return trans.m_nParentID != CDefines.DEFAULT_ID;
+            }).ToList();
+        }
+        public List<CTransaction> GetArchivedTransactions(string szSearchTerms)
+        {
+            return SearchTransList(szSearchTerms, m_lsTransactions).Where((trans) =>
+            {
+                return trans.m_bArchived;
+            }).ToList();
+        }
+        public List<CTransaction> GetDeletedTransactions(string szSearchTerms)
+        {
+            return SearchTransList(szSearchTerms, m_lsTransactions).Where((trans) =>
+            {
+                return trans.m_bDeleted;
+            }).ToList();
+        }
+        public CTransaction GetNonRecurringTransaction(int nParentID, DateTime dtStart)
+        {
+            List<CTransaction> lsTrans = GetNonRecurringTransactions("").Where((trans) =>
+            {
+                return trans.m_nParentID == nParentID && trans.m_dtStartDate.ToShortDateString().Equals(dtStart.ToShortDateString());
+            }).ToList();
+
+            if (lsTrans is null || lsTrans.Count == 0) return null;
+            else return lsTrans[0];
+        }
+
         
+
     }
 }

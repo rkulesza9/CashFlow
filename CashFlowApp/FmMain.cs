@@ -144,8 +144,19 @@ namespace CashFlowApp
         {
             try
             {
-                CPayPeriod pp = new CPayPeriod(DateTime.Now.AddDays(-7), DateTime.Now.AddDays(7), CJsonDatabase.Instance.GetTransactions());
-                pp.m_lsCredit.AddRange(CJsonDatabase.Instance.GetCreditTrans(DateTime.Now.AddDays(-7), DateTime.Now.AddDays(7)));
+                DateTime dtFrom = DateTime.Now.AddDays(-7);
+                DateTime dtTo = DateTime.Now.AddDays(7);
+
+                if (!Properties.Settings.Default[CDefines.SETTINGS_PAYPERIOD_DATE_FROM].Equals(new DateTime()))
+                {
+                    dtFrom = (DateTime)Properties.Settings.Default[CDefines.SETTINGS_PAYPERIOD_DATE_FROM];
+                }
+                if (!Properties.Settings.Default[CDefines.SETTINGS_PAYPERIOD_DATE_TO].Equals(new DateTime()))
+                {
+                    dtTo = (DateTime)Properties.Settings.Default[CDefines.SETTINGS_PAYPERIOD_DATE_TO];
+                }
+
+                CPayPeriod pp = new CPayPeriod(dtFrom, dtTo, CJsonDatabase.Instance.GetActiveTransactions(""));
                 OpenForm(new FmPayPeriod(pp));
                 
             }
@@ -183,6 +194,20 @@ namespace CashFlowApp
             }
 
         }
+        private void btnDeleteNonRecurr_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<CTransaction> ls = CJsonDatabase.Instance.GetNonRecurringTransactions("");
+                foreach (CTransaction t in ls) CJsonDatabase.Instance.Remove(t.m_szGuid);
+                MessageBox.Show("All Non-Recurring Transactions Have Been Deleted");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("btnDeleteNonRecurr_Click");
+                Debug.WriteLine(ex);
+            }
+        }
         #endregion
 
         public string GetLastFile()
@@ -217,6 +242,7 @@ namespace CashFlowApp
         }
         public void CloseOpenForms()
         {
+            if (m_pOpenForms == null || m_pOpenForms.Count == 0) return;
             foreach(Form fm in m_pOpenForms)
             {
                 fm.Close();
@@ -224,6 +250,7 @@ namespace CashFlowApp
 
             m_pOpenForms.Clear();
         }
+
 
     }
 }

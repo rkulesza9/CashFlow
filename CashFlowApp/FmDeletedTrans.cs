@@ -143,7 +143,7 @@ namespace CashFlowApp
             lvDataView.Items.Clear();
             lvDataView.Columns.Clear();
             lvDataView.Columns.AddRange(CDefines.UI_LISTVIEW_TRANS_COLUMNS);
-            foreach (CTransaction trans in CJsonDatabase.Instance.GetTransactions(szSearchText, false, false, true))
+            foreach (CTransaction trans in CJsonDatabase.Instance.GetDeletedTransactions(szSearchText))
             {
                 CListViewItem item = trans.CreateListViewItem(CDefines.UI_LISTVIEW_TRANS);
                 lvDataView.Items.Add(item);

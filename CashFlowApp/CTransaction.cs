@@ -22,6 +22,7 @@ namespace CashFlowApp
         public int m_nTimesPerPeriod;
         public int m_nTimePeriodID;
         public DateTime m_dtStartDate;
+        public int m_nParentID;
         
         public CTransaction() : base() { }
         
@@ -42,6 +43,7 @@ namespace CashFlowApp
                 m_nTimesPerPeriod = 0;
                 m_nTimePeriodID = CDefines.TRANS_TIMEPERIOD_NONE;
                 m_dtStartDate = DateTime.Now;
+                m_nParentID = CDefines.DEFAULT_ID;
             }
             catch (Exception ex)
             {
@@ -302,6 +304,20 @@ namespace CashFlowApp
             set
             {
                 m_dtStartDate = value;
+                PropertyUpdate();
+            }
+        }
+        [JsonIgnore]
+        [ReadOnly(true)]
+        [Browsable(true)]
+        [Category("Properties")]
+        [DisplayName("Parent ID")]
+        public int nParentID
+        {
+            get { return m_nParentID; }
+            set
+            {
+                m_nParentID = value;
                 PropertyUpdate();
             }
         }

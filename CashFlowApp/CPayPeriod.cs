@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CashFlowApp
 {
@@ -54,27 +55,39 @@ namespace CashFlowApp
             m_dtStart = dtStart;
             m_dtEnd = dtEnd;
 
+            int x = 0;
             foreach(CTransaction trans in transactions)
             {
-
-                DateTime dtStartDate = DateTime.Parse(trans.m_dtStartDate.ToShortDateString());
-                DateTime dt1 = FirstDateAfter(dtStartDate, dtStart, trans.m_nTimesPerPeriod, trans.m_nTimePeriodID);
-                DateTime dt2 = LastDateBefore(dtStartDate, dtEnd, trans.m_nTimesPerPeriod, trans.m_nTimePeriodID);
-
-                int x = 0;
-                while(dt1 <= dt2)
+                if (trans.m_nParentID != CDefines.DEFAULT_ID)
                 {
-                    CTransaction trans1;
-                    if (CJsonDatabase.Instance.TransactionExists(trans.m_szName, dt1))
-                    {
-                        trans1 = CJsonDatabase.Instance.GetTransactionByNameAndDate(trans.m_szName, dt1);
-                    } else
-                    {
-                        trans1 = CreateTransaction(trans, dt1);
-                    }
-                    AddToList(trans1);
-                    dt1 = IncrementDate(dt1, trans.m_nTimesPerPeriod, trans.m_nTimePeriodID);
                     x++;
+                    Debug.WriteLine($"{x}");
+                    if (dtStart <= trans.m_dtStartDate && trans.m_dtStartDate <= dtEnd)
+                    {
+                        AddToList(trans);
+                    }
+                } 
+                else
+                {
+                    DateTime dtFirstDateAfter = FirstDateAfter(trans.m_dtStartDate, dtStart, trans.m_nTimesPerPeriod, trans.m_nTimePeriodID);
+                    DateTime dtLastDateBefore = LastDateBefore(trans.m_dtStartDate, dtEnd, trans.m_nTimesPerPeriod, trans.m_nTimePeriodID);
+
+                    if (dtFirstDateAfter.Equals(new DateTime()) || dtLastDateBefore.Equals(new DateTime())) continue;
+
+                    while(dtFirstDateAfter <= dtLastDateBefore)
+                    {
+                        CTransaction pExistingTrans = CJsonDatabase.Instance.GetNonRecurringTransaction(trans.m_nID, dtFirstDateAfter);
+                        if (pExistingTrans == null)
+                        {
+                            CTransaction trans1 = CreateTransaction(trans, dtFirstDateAfter);
+                            AddToList(trans1);
+                        } else
+                        {
+                            AddToList(pExistingTrans);
+                        }
+
+                        dtFirstDateAfter = IncrementDate(dtFirstDateAfter, trans.m_nTimesPerPeriod, trans.m_nTimePeriodID);
+                    }
                 }
 
             }
@@ -95,21 +108,25 @@ namespace CashFlowApp
             //m_nTimesPerPeriod = trans.m_nTimesPerPeriod;
             //m_nTimePeriodID = trans.m_nTimePeriodID;
             trans1.m_dtStartDate = dt;
+            trans1.m_nParentID = trans.m_nID;
+            CJsonDatabase.Instance.Save(CJsonDatabase.Instance.m_szFileName);
+
             return trans1;
         } 
         public DateTime FirstDateAfter(DateTime dt, DateTime dtAfter, int nPerTimeUnit, int nTimePeriodID)
         {
-            while(dt < dtAfter)
-            {
+            while(dt <= dtAfter)
+            {                
                 dt = IncrementDate(dt, nPerTimeUnit, nTimePeriodID);
+                
             }
-             
+
             return dt;
         }
         public DateTime LastDateBefore(DateTime dt, DateTime dtBefore, int nPerTimeUnit, int nTimePeriodID)
         {
             DateTime dtLast = new DateTime();
-            while (dt < dtBefore)
+            while(dt <= dtBefore)
             {
                 dtLast = dt;
                 dt = IncrementDate(dt, nPerTimeUnit, nTimePeriodID);
@@ -199,17 +216,6 @@ namespace CashFlowApp
             Debug.WriteLine($"m_nCreditTotal: {m_nCreditTotal}");
             Debug.WriteLine("Summary ----- ");
         }
-        //public ArrayList m_lsIncome;
-        //public ArrayList m_lsBills;
-        //public ArrayList m_lsCredit;
 
-        //public decimal m_nActIncomeTotal;
-        //public decimal m_nActBillsTotal;
-        //public decimal m_nExpIncomeTotal;
-        //public decimal m_nExpBillsTotal;
-        //public decimal m_nCreditTotal;
-
-        //public DateTime m_dtStart;
-        //public DateTime m_dtEnd;
     }
 }

@@ -30,6 +30,7 @@
         {
             this.btnArchivedTrans = new System.Windows.Forms.ToolStripMenuItem();
             this.archiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deletedTransactionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPayPeriod = new System.Windows.Forms.ToolStripMenuItem();
             this.btnTransactions = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,7 +46,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFilename = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblLastSave = new System.Windows.Forms.ToolStripStatusLabel();
-            this.deletedTransactionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnDeleteNonRecurr = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -65,6 +67,13 @@
             this.archiveToolStripMenuItem.Name = "archiveToolStripMenuItem";
             this.archiveToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.archiveToolStripMenuItem.Text = "Archive";
+            // 
+            // deletedTransactionsToolStripMenuItem
+            // 
+            this.deletedTransactionsToolStripMenuItem.Name = "deletedTransactionsToolStripMenuItem";
+            this.deletedTransactionsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.deletedTransactionsToolStripMenuItem.Text = "Deleted Transactions";
+            this.deletedTransactionsToolStripMenuItem.Click += new System.EventHandler(this.deletedTransactionsToolStripMenuItem_Click);
             // 
             // btnPayPeriod
             // 
@@ -92,28 +101,28 @@
             // btnSaveAs
             // 
             this.btnSaveAs.Name = "btnSaveAs";
-            this.btnSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.btnSaveAs.Size = new System.Drawing.Size(114, 22);
             this.btnSaveAs.Text = "Save As";
             this.btnSaveAs.Click += new System.EventHandler(this.btnSaveAs_Click);
             // 
             // btnSave
             // 
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(180, 22);
+            this.btnSave.Size = new System.Drawing.Size(114, 22);
             this.btnSave.Text = "Save";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnOpen
             // 
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(180, 22);
+            this.btnOpen.Size = new System.Drawing.Size(114, 22);
             this.btnOpen.Text = "Open";
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // btnNew
             // 
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(180, 22);
+            this.btnNew.Size = new System.Drawing.Size(114, 22);
             this.btnNew.Text = "New";
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
@@ -133,6 +142,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.viewToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.archiveToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -185,14 +195,22 @@
             this.lblLastSave.Size = new System.Drawing.Size(65, 17);
             this.lblLastSave.Text = "lblLastSave";
             // 
-            // deletedTransactionsToolStripMenuItem
+            // toolsToolStripMenuItem
             // 
-            this.deletedTransactionsToolStripMenuItem.Name = "deletedTransactionsToolStripMenuItem";
-            this.deletedTransactionsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.deletedTransactionsToolStripMenuItem.Text = "Deleted Transactions";
-            this.deletedTransactionsToolStripMenuItem.Click += new System.EventHandler(this.deletedTransactionsToolStripMenuItem_Click);
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnDeleteNonRecurr});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
             // 
-            // MainForm
+            // btnDeleteNonRecurr
+            // 
+            this.btnDeleteNonRecurr.Name = "btnDeleteNonRecurr";
+            this.btnDeleteNonRecurr.Size = new System.Drawing.Size(189, 22);
+            this.btnDeleteNonRecurr.Text = "Delete Non-Recurring";
+            this.btnDeleteNonRecurr.Click += new System.EventHandler(this.btnDeleteNonRecurr_Click);
+            // 
+            // FmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -200,7 +218,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
             this.IsMdiContainer = true;
-            this.Name = "MainForm";
+            this.Name = "FmMain";
             this.Text = "CashFlow";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -231,6 +249,8 @@
         private System.Windows.Forms.ToolStripStatusLabel lblFilename;
         private System.Windows.Forms.ToolStripStatusLabel lblLastSave;
         private System.Windows.Forms.ToolStripMenuItem deletedTransactionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem btnDeleteNonRecurr;
     }
 }
 

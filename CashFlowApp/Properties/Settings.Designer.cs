@@ -34,5 +34,27 @@ namespace CashFlowApp.Properties {
                 this["szLastOpenedFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime dtFrom {
+            get {
+                return ((global::System.DateTime)(this["dtFrom"]));
+            }
+            set {
+                this["dtFrom"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime dtTo {
+            get {
+                return ((global::System.DateTime)(this["dtTo"]));
+            }
+            set {
+                this["dtTo"] = value;
+            }
+        }
     }
 }

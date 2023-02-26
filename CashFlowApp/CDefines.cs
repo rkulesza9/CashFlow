@@ -50,6 +50,8 @@ namespace CashFlowApp
         };
 
         public const string SETTINGS_LAST_OPENED_FILE = "szLastOpenedFile";
+        public const string SETTINGS_PAYPERIOD_DATE_FROM = "dtFrom";
+        public const string SETTINGS_PAYPERIOD_DATE_TO = "dtTo";
 
         public const int UI_LISTVIEW_TRANS = 0;
         public const int UI_LISTVIEW_PAYPERIOD = 1;
@@ -81,6 +83,8 @@ namespace CashFlowApp
                 };
             }
         }
+
+        public const int DEFAULT_ID = -1;
 
     }
 }
